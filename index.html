@@ -74,8 +74,6 @@
         
         .card-item { background-color: #1a1a1a; border-radius: 8px; overflow: hidden; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; border: 1px solid #333; display: flex; flex-direction: column; }
         .card-item:hover { transform: translateY(-5px); border-color: #ffffff; }
-        
-        /* Ajustado para contain, para que o icon.ico ou logos não fiquem cortados/esticados */
         .card-img { width: 100%; height: 200px; background-color: #111; object-fit: contain; padding: 5px; }
         .card-title { padding: 12px 10px; font-size: 14px; font-weight: bold; flex-grow: 1; display: flex; align-items: center; justify-content: center; color: #eee; text-transform: uppercase; }
 
@@ -85,9 +83,6 @@
         .card-episode .card-title { padding: 10px; font-size: 13px; font-weight: bold; color: #eee; text-align: left; }
 
         .folder-icon { font-size: 60px; display: flex; align-items: center; justify-content: center; height: 160px; transition: 0.3s; }
-        .folder-live { background: linear-gradient(135deg, #ff416c, #ff4b2b); } 
-        .folder-vod { background: linear-gradient(135deg, #00b09b, #96c93d); } 
-        .folder-series { background: linear-gradient(135deg, #8e2de2, #4a00e0); } 
         
         .season-block { height: 140px; background: linear-gradient(135deg, #222, #111); display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 3px solid #ffffff;}
         .season-title { font-size: 32px; font-weight: bold; color: #fff; }
@@ -114,36 +109,13 @@
         .btn-close-details:hover { color: #ff5252; background: rgba(0,0,0,0.8); }
         .details-extra-content { padding: 20px; z-index: 2; position: relative; }
         
-        /* --- PLAYER MODAL ESTILO YOUTUBE --- */
+        /* --- PLAYER NATIVO SIMPLIFICADO --- */
         #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
-        .video-wrapper { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #000; overflow: hidden; }
-        video { width: 100%; height: 100%; outline: none; }
-
-        .video-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); z-index: 1001; opacity: 0; transition: opacity 0.3s; pointer-events: none;}
-        .video-wrapper.show-controls .video-header { opacity: 1; pointer-events: auto; }
-        .video-title { font-size: 20px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 3px #000; }
-        .btn-fechar-video { background-color: rgba(20,20,20,0.8); color: white; border: 1px solid #444; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
-        .btn-fechar-video:hover { background-color: #ff5252; border-color: #ff5252; }
-
-        .yt-controls { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 0 20px 15px 20px; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.3s; z-index: 1002; }
-        .video-wrapper.show-controls .yt-controls { opacity: 1; }
-
-        .yt-progress-container { width: 100%; height: 5px; background: rgba(255,255,255,0.2); cursor: pointer; position: relative; margin-bottom: 12px; transition: height 0.1s; border-radius: 2px;}
-        .yt-progress-container:hover { height: 8px; }
-        .yt-progress-filled { height: 100%; background: #ff0000; width: 0%; position: relative; border-radius: 2px; }
-        .yt-progress-filled::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: #ff0000; border-radius: 50%; opacity: 0; transition: opacity 0.1s; }
-        .yt-progress-container:hover .yt-progress-filled::after { opacity: 1; }
-
-        .yt-bottom-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
-        .yt-left, .yt-right { display: flex; align-items: center; gap: 15px; }
-        
-        .yt-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: 0.2s; outline: none;}
-        .yt-btn:hover { transform: scale(1.1); color: #ff0000; }
-        .yt-time { font-size: 14px; color: #ddd; margin-left: 10px; font-weight: 500;}
-
-        input[type=range] { -webkit-appearance: none; background: rgba(255,255,255,0.3); height: 4px; border-radius: 2px; outline: none; width: 70px; cursor: pointer; transition: 0.2s;}
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
-        input[type=range]:hover { background: rgba(255,255,255,0.6); }
+        .btn-close-video { position: absolute; top: 20px; right: 20px; background: rgba(255,0,0,0.8); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; z-index: 1001; transition: 0.2s; }
+        .btn-close-video:hover { background: red; }
+        .video-wrapper { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        video { width: 100%; max-height: 100%; outline: none; }
+        #hls-error-msg { position: absolute; top: 70px; right: 20px; background: rgba(0,0,0,0.8); color: #ff5252; padding: 10px; border-radius: 5px; z-index: 1001; display: none; font-size: 14px;}
 
         /* --- MODAIS --- */
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px;}
@@ -164,7 +136,7 @@
             <h2>Entrar com Xtream</h2>
             <form id="loginForm" style="width: 100%;">
                 <div class="input-group"><label>Nome do Perfil</label><input type="text" id="profileName" required placeholder="Ex: Casa"></div>
-                <div class="input-group"><label>URL do Servidor</label><input type="url" id="serverUrl" required placeholder="http://..."></div>
+                <div class="input-group"><label>URL do Servidor</label><input type="url" id="serverUrl" required placeholder="http:// ou https://"></div>
                 <div class="input-group"><label>Usuário</label><input type="text" id="username" required></div>
                 <div class="input-group"><label>Senha</label><input type="password" id="password" required></div>
                 <label class="checkbox-group"><input type="checkbox" id="lembrarSenha"> Lembrar meus dados</label>
@@ -232,51 +204,16 @@
     </div>
 
     <div id="video-modal">
-        <div class="video-wrapper" id="video-wrapper">
-            
-            <div class="video-header" id="video-header">
-                <div class="video-title" id="video-title">Vídeo</div>
-                <button class="btn-fechar-video" onclick="fecharPlayer()">✕ Fechar Player</button>
-            </div>
-
-            <video id="player" autoplay playsinline></video>
-            
-            <div class="yt-controls" id="yt-controls">
-                <div class="yt-progress-container" id="yt-progress-container">
-                    <div class="yt-progress-filled" id="yt-progress"></div>
-                </div>
-                
-                <div class="yt-bottom-row">
-                    <div class="yt-left">
-                        <button class="yt-btn" id="yt-rewind-btn" title="Voltar 10s">⏪</button>
-                        <button class="yt-btn" id="yt-play-btn" title="Play/Pause">⏸</button>
-                        <button class="yt-btn" id="yt-forward-btn" title="Avançar 10s">⏩</button>
-                        
-                        <div style="display:flex; align-items:center; gap:5px; margin-left:5px;">
-                            <button class="yt-btn" id="yt-mute-btn" title="Mutar/Desmutar" style="font-size: 18px;">🔊</button>
-                            <input type="range" id="yt-vol-slider" min="0" max="1" step="0.1" value="1">
-                        </div>
-
-                        <span class="yt-time" id="yt-time">00:00 / 00:00</span>
-                    </div>
-                    
-                    <div class="yt-right">
-                        <button class="yt-btn" id="yt-download-btn" title="Baixar Vídeo Offline">📥</button>
-                        <button class="yt-btn" onclick="abrirMenuCast()" title="Transmitir para TV">
-                            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm18-7H5v1.63c3.96 1.28 7.09 4.41 8.37 8.37H19V7zM1 10v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="currentColor"/></svg>
-                        </button>
-                        <button class="yt-btn" id="yt-fullscreen-btn" title="Tela Cheia">⛶</button>
-                    </div>
-                </div>
-            </div>
-
+        <button class="btn-close-video" onclick="fecharPlayer()">✕ Fechar Player</button>
+        <div id="hls-error-msg">Erro de CORS/Conexão com o servidor de vídeo.</div>
+        <div class="video-wrapper">
+            <video id="player" controls autoplay playsinline></video>
         </div>
     </div>
 
     <div id="resume-modal" class="custom-modal">
         <div class="modal-content">
             <h3>Continuar Assistindo?</h3>
-            <p>Você parou em <span id="resume-time" style="font-weight: bold; color: #ffd700;">00:00</span> da última vez.</p>
             <div style="display:flex; justify-content: center; gap:10px; margin-top:15px;">
                 <button class="btn-acao" onclick="iniciarVideoHLS(0)">Do Início</button>
                 <button class="btn-play-big" style="padding: 8px 25px; font-size: 14px;" id="btn-resume-continue">Continuar</button>
@@ -320,8 +257,7 @@
         let urlVideoAtual = ''; let nomeVideoAtual = ''; let videoIdAtual = '';
         let infoVideoAtual = null; let serieDadosCompletos = null; 
         let meusFavoritos = { live: [], vod: [], series: [] };
-
-        const imgFallback = 'icon.ico'; // A imagem que vai salvar o visual se a API falhar
+        const imgFallback = 'icon.ico';
 
         window.onload = () => {
             const dadosSalvos = localStorage.getItem('iptv_dados');
@@ -337,7 +273,6 @@
         };
         function salvarFavoritos() { localStorage.setItem('iptv_favoritos', JSON.stringify(meusFavoritos)); }
 
-        // --- FUNÇÕES DE EMOJIS ---
         function obterEmojiCategoria(nome) {
             let n = nome.toLowerCase();
             if (n.includes('comédia')) return '😂';
@@ -355,37 +290,31 @@
         // --- SISTEMA CONTROLE PARENTAL ---
         function getSenhaAdulto() { return localStorage.getItem('iptv_adult_pwd') || '5274'; }
         let callbackSenhaAdulto = null;
-        
         function isAdultContent(name) {
             if (!name) return false;
             let n = name.toLowerCase();
             return n.includes('adulto') || n.includes('18') || n.includes('xxx') || n.includes('porn');
         }
-
         function interceptarCarregarConteudo(categoryId, categoryName) {
             if (isAdultContent(categoryName)) { abrirModalAdulto(() => carregarConteudoDaCategoria(categoryId, categoryName)); } else { carregarConteudoDaCategoria(categoryId, categoryName); }
         }
-
         function interceptarAbrirDetalhes(item, nomeItem) {
             if (isAdultContent(nomeItem) || isAdultContent(item.category_name)) { abrirModalAdulto(() => abrirDetalhes(item, nomeItem)); } else { abrirDetalhes(item, nomeItem); }
         }
-
         function abrirModalAdulto(callback) {
             callbackSenhaAdulto = callback;
             const input = document.getElementById('adult-pwd-input');
-            input.value = ''; input.placeholder = getSenhaAdulto() === '5274' ? "Senha padrão: 5274" : "Digite sua senha secreta...";
+            input.value = ''; input.placeholder = getSenhaAdulto() === '5274' ? "Senha padrão: 5274" : "Digite sua senha...";
             document.getElementById('adult-error').style.display = 'none';
             document.getElementById('adult-modal').style.display = 'flex';
             input.focus();
         }
-
         function fecharModalAdulto() { document.getElementById('adult-modal').style.display = 'none'; }
         function verificarSenhaAdulto() {
             if (document.getElementById('adult-pwd-input').value === getSenhaAdulto()) { let acaoSalva = callbackSenhaAdulto; fecharModalAdulto(); if (acaoSalva) acaoSalva(); } 
             else { document.getElementById('adult-error').style.display = 'block'; }
         }
         document.getElementById('adult-pwd-input').addEventListener('keypress', function (e) { if (e.key === 'Enter') verificarSenhaAdulto(); });
-
         function abrirModalTrocarSenha() { document.getElementById('change-pwd-modal').style.display = 'flex'; }
         function fecharModalTrocarSenha() { document.getElementById('change-pwd-modal').style.display = 'none'; }
         function salvarNovaSenha() {
@@ -395,7 +324,7 @@
             setTimeout(() => { fecharModalTrocarSenha(); }, 1500);
         }
 
-        // --- LOGIN (SEM FORÇAR HTTPS PARA NÃO QUEBRAR O VÍDEO) ---
+        // --- LOGIN ---
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault(); 
             const btnEntrar = document.getElementById('btnEntrar');
@@ -403,8 +332,6 @@
             const lembrar = document.getElementById('lembrarSenha').checked;
             
             credenciais.profile = document.getElementById('profileName').value.trim();
-            
-            // Revertemos para usar exatamente o que você digitar (com ou sem S)
             let urlLimpa = document.getElementById('serverUrl').value.trim().replace(/\/+$/, "");
             if (urlLimpa !== "" && !urlLimpa.startsWith('http')) urlLimpa = 'http://' + urlLimpa;
             
@@ -437,7 +364,6 @@
                             
                             if (diasRestantes <= 7) { 
                                 badgeExp.className = 'expire-badge danger'; 
-                                badgeExp.innerHTML = `🪫 Expira: ${dia}/${mes}/${ano} (${diasRestantes} dias)`; 
                             } else if (diasRestantes <= 15) { 
                                 badgeExp.className = 'expire-badge warning'; 
                             } else { 
@@ -455,7 +381,7 @@
                 } else { throw new Error("Usuário ou Senha incorretos."); }
             } catch (e) {
                 mensagem.className = 'erro'; 
-                mensagem.innerText = "Erro de conexão. Verifique se o link está correto. (Se você usou HTTP, lembre-se de liberar o 'Conteúdo Inseguro' no cadeado do navegador).";
+                mensagem.innerText = "Erro de conexão. Se a URL for HTTP, o navegador está bloqueando. (Libere no cadeado ou ative a extensão CORS).";
             } finally { btnEntrar.disabled = false; }
         });
 
@@ -465,7 +391,7 @@
             document.getElementById('login-section').style.display = 'flex'; 
         }
 
-        // --- CARREGAMENTO API (AGORA USA SEMPRE O SEU ICON.ICO SE FALHAR) ---
+        // --- CARREGAMENTO API ---
         async function carregarCategorias(acaoApi, tituloTela, botaoClicado, tipo) {
             fecharDetalhes(); document.querySelectorAll('.nav-btn:not(.btn-sair):not(.btn-pwd-nav)').forEach(btn => btn.classList.remove('active')); if(botaoClicado) botaoClicado.classList.add('active');
             tipoAtual = tipo; modoAtual = 'categorias'; document.getElementById('btn-voltar').style.display = 'none'; document.getElementById('titulo-sessao').innerText = `Categorias - ${tituloTela}`;
@@ -478,7 +404,6 @@
                 
                 categorias.forEach(cat => {
                     const card = document.createElement('div'); card.className = 'card-item';
-                    
                     let imgUrl = (cat.category_icon && cat.category_icon.trim() !== '') ? cat.category_icon : imgFallback;
                     let emoji = obterEmojiCategoria(cat.category_name);
                     
@@ -589,13 +514,11 @@
                 if (!thumbUrl || thumbUrl.trim() === '') thumbUrl = imgFallback;
 
                 card.innerHTML = `<img src="${thumbUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}'"><div class="card-title">${title}</div>`;
-                
                 card.onclick = () => prepararVideo(ep.id, ep.container_extension || 'mp4', `${nomeSerie} - ${title}`);
                 gridExtra.appendChild(card);
             });
         }
 
-        // --- FAVORITOS ---
         function alternarFavoritoDetalhes() {
             let isFav = meusFavoritos[infoVideoAtual.tipo]?.some(i => i.id_real == infoVideoAtual.id);
             if (isFav) meusFavoritos[infoVideoAtual.tipo] = meusFavoritos[infoVideoAtual.tipo].filter(i => i.id_real != infoVideoAtual.id);
@@ -626,64 +549,12 @@
             grid.appendChild(card);
         }
 
-        // --- PLAYER DE VÍDEO COM TRATAMENTO DE ERRO ---
+        // --- NATIVE PLAYER DE VÍDEO ---
         const player = document.getElementById('player');
-        const videoWrapper = document.getElementById('video-wrapper');
-        const playBtn = document.getElementById('yt-play-btn');
-        const progressBar = document.getElementById('yt-progress');
-        const progressContainer = document.getElementById('yt-progress-container');
-        const timeDisplay = document.getElementById('yt-time');
-        const muteBtn = document.getElementById('yt-mute-btn');
-        const volSlider = document.getElementById('yt-vol-slider');
         
-        let hideControlsTimeout;
-
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return "00:00";
-            let min = Math.floor(seconds / 60);
-            let sec = Math.floor(seconds % 60);
-            return `${min < 10 ? '0'+min : min}:${sec < 10 ? '0'+sec : sec}`;
-        }
-
-        document.getElementById('yt-rewind-btn').onclick = () => { player.currentTime = Math.max(0, player.currentTime - 10); };
-        document.getElementById('yt-forward-btn').onclick = () => { player.currentTime = Math.min(player.duration, player.currentTime + 10); };
-        
-        muteBtn.onclick = () => {
-            player.muted = !player.muted;
-            volSlider.value = player.muted ? 0 : player.volume;
-            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
-        };
-        
-        volSlider.oninput = (e) => {
-            player.volume = e.target.value;
-            player.muted = player.volume == 0;
-            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
-        };
-
-        document.getElementById('yt-download-btn').onclick = () => {
-            alert("Atenção: O vídeo será aberto em uma nova guia para download.\n\nPara salvar, clique no ícone de 3 pontos no vídeo e escolha 'Fazer o download' ou 'Salvar Vídeo'.");
-            window.open(urlVideoAtual, '_blank');
-        };
-
-        playBtn.onclick = () => { if(player.paused) player.play(); else player.pause(); };
-        player.onplay = () => playBtn.innerHTML = '⏸';
-        player.onpause = () => playBtn.innerHTML = '▶';
-
-        // Dispara quando o HTML5 Video nativo dá erro
-        player.onerror = () => {
-            timeDisplay.innerText = "Erro ao reproduzir. (Verifique CORS/HTTP no cadeado)";
-            timeDisplay.style.color = "#ff5252";
-        };
-
+        // Mantemos o localStorage para salvar onde parou
         player.ontimeupdate = () => {
-            if(tipoAtual === 'live') return; 
-            if(!player.duration) return;
-            const percent = (player.currentTime / player.duration) * 100;
-            progressBar.style.width = percent + '%';
-            timeDisplay.innerText = `${formatTime(player.currentTime)} / ${formatTime(player.duration)}`;
-            timeDisplay.style.color = "#ddd";
-
-            if (player.currentTime > 5 && player.duration > 0) {
+            if (tipoAtual !== 'live' && player.currentTime > 5 && player.duration > 0) {
                 if (player.currentTime < player.duration - 15) {
                     localStorage.setItem('iptv_time_' + videoIdAtual, player.currentTime);
                 } else {
@@ -692,22 +563,8 @@
             }
         };
 
-        progressContainer.onclick = (e) => {
-            if(tipoAtual === 'live') return;
-            const rect = progressContainer.getBoundingClientRect();
-            const pos = (e.clientX - rect.left) / rect.width;
-            player.currentTime = pos * player.duration;
-        };
-
-        document.getElementById('yt-fullscreen-btn').onclick = () => {
-            if (!document.fullscreenElement) { videoWrapper.requestFullscreen().catch(e=>console.log(e)); } 
-            else { document.exitFullscreen(); }
-        };
-
-        videoWrapper.onmousemove = () => {
-            videoWrapper.classList.add('show-controls');
-            clearTimeout(hideControlsTimeout);
-            hideControlsTimeout = setTimeout(() => { videoWrapper.classList.remove('show-controls'); }, 3000);
+        player.onerror = () => {
+            document.getElementById('hls-error-msg').style.display = 'block';
         };
 
         function prepararVideo(id, ext, nome) {
@@ -725,9 +582,7 @@
             if (tipoAtual !== 'live') {
                 let savedTime = localStorage.getItem('iptv_time_' + videoIdAtual);
                 if (savedTime && parseFloat(savedTime) > 5) {
-                    document.getElementById('resume-time').innerText = formatTime(parseFloat(savedTime));
                     document.getElementById('resume-modal').style.display = 'flex';
-                    
                     document.getElementById('btn-resume-continue').onclick = () => {
                         document.getElementById('resume-modal').style.display = 'none';
                         iniciarVideoHLS(parseFloat(savedTime));
@@ -741,42 +596,22 @@
         function iniciarVideoHLS(startTime) {
             document.getElementById('resume-modal').style.display = 'none';
             document.getElementById('video-modal').style.display = 'flex';
-            document.getElementById('video-title').innerText = nomeVideoAtual;
-            
-            if(tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) {
-                document.getElementById('yt-download-btn').style.display = 'none';
-            } else {
-                document.getElementById('yt-download-btn').style.display = 'inline-flex';
-            }
-
-            if(tipoAtual === 'live') {
-                timeDisplay.innerText = '🔴 Ao Vivo';
-                progressContainer.style.display = 'none';
-            } else {
-                timeDisplay.innerText = 'Carregando...';
-                progressContainer.style.display = 'block';
-                progressBar.style.width = '0%';
-            }
+            document.getElementById('hls-error-msg').style.display = 'none';
 
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
 
             const aplicarStartTime = () => {
                 if(startTime > 0) player.currentTime = startTime;
-                player.play().catch(e => console.log("Auto-play bloqueado pelo navegador", e));
+                player.play().catch(e => console.log(e));
             };
 
             if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
                 hlsInfo = new Hls(); 
-                
-                // Tratamento de erro do HLS para te avisar se o servidor bloquear o vídeo
                 hlsInfo.on(Hls.Events.ERROR, function (event, data) {
                     if (data.fatal) {
-                        timeDisplay.innerText = "Erro de conexão com o vídeo.";
-                        timeDisplay.style.color = "#ff5252";
-                        console.error("HLS Error:", data);
+                        document.getElementById('hls-error-msg').style.display = 'block';
                     }
                 });
-
                 hlsInfo.loadSource(urlVideoAtual); 
                 hlsInfo.attachMedia(player);
                 hlsInfo.on(Hls.Events.MANIFEST_PARSED, aplicarStartTime);
@@ -789,12 +624,9 @@
 
         function fecharPlayer() {
             document.getElementById('video-modal').style.display = 'none';
-            if (document.fullscreenElement) document.exitFullscreen();
             player.pause(); player.src = '';
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
         }
-
-        function abrirMenuCast() { alert("Transmitindo via Web:\n\n💻 PC (Chrome): Clique com o botão direito no vídeo e selecione 'Transmitir...'\n\n📱 iOS (Safari): Use o ícone nativo do AirPlay."); }
 
         // --- LÓGICA DE PESQUISA ---
         function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
@@ -816,7 +648,7 @@
             fecharDetalhes(); 
             document.getElementById('titulo-sessao').innerText = `Procurando "${termo}" em tudo...`; 
             document.getElementById('btn-voltar').style.display = 'block';
-            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo (Isso pode levar alguns segundos)...</div>';
+            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo...</div>';
             
             let acaoApi = tipoAtual === 'live' ? 'get_live_streams' : tipoAtual === 'vod' ? 'get_vod_streams' : 'get_series';
             try {
