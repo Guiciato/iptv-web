@@ -413,7 +413,6 @@
             btnEntrar.disabled = true; mensagem.className = 'carregando'; mensagem.innerText = 'Conectando ao servidor...';
 
             try {
-                // Se der erro de CORS aqui, lembre-se da proxy ou de rodar como arquivo local
                 const res = await fetch(`${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}`);
                 const data = await res.json();
                 
