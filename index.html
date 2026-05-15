@@ -109,13 +109,38 @@
         .btn-close-details:hover { color: #ff5252; background: rgba(0,0,0,0.8); }
         .details-extra-content { padding: 20px; z-index: 2; position: relative; }
         
-        /* --- PLAYER NATIVO SIMPLIFICADO --- */
+        /* --- PLAYER YOUTUBE STYLE REFORMULADO --- */
         #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
-        .btn-close-video { position: absolute; top: 20px; right: 20px; background: rgba(255,0,0,0.8); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; z-index: 1001; transition: 0.2s; }
-        .btn-close-video:hover { background: red; }
-        .video-wrapper { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        video { width: 100%; max-height: 100%; outline: none; }
-        #hls-error-msg { position: absolute; top: 70px; right: 20px; background: rgba(0,0,0,0.8); color: #ff5252; padding: 10px; border-radius: 5px; z-index: 1001; display: none; font-size: 14px;}
+        .video-wrapper { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #000; overflow: hidden; }
+        video { width: 100%; height: 100%; outline: none; }
+
+        .video-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); z-index: 1001; opacity: 0; transition: opacity 0.3s; pointer-events: none;}
+        .video-wrapper.show-controls .video-header { opacity: 1; pointer-events: auto; }
+        .video-title { font-size: 20px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 3px #000; }
+        .btn-fechar-video { background-color: rgba(20,20,20,0.8); color: white; border: 1px solid #444; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        .btn-fechar-video:hover { background-color: #ff5252; border-color: #ff5252; }
+
+        .yt-controls { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 0 20px 15px 20px; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.3s; z-index: 1002; }
+        .video-wrapper.show-controls .yt-controls { opacity: 1; }
+
+        .yt-progress-container { width: 100%; height: 5px; background: rgba(255,255,255,0.2); cursor: pointer; position: relative; margin-bottom: 12px; transition: height 0.1s; border-radius: 2px;}
+        .yt-progress-container:hover { height: 8px; }
+        .yt-progress-filled { height: 100%; background: #ff0000; width: 0%; position: relative; border-radius: 2px; }
+        .yt-progress-filled::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: #ff0000; border-radius: 50%; opacity: 0; transition: opacity 0.1s; }
+        .yt-progress-container:hover .yt-progress-filled::after { opacity: 1; }
+
+        .yt-bottom-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
+        .yt-left, .yt-right { display: flex; align-items: center; gap: 15px; }
+        
+        .yt-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: 0.2s; outline: none;}
+        .yt-btn:hover { transform: scale(1.1); color: #ff0000; }
+        .yt-time { font-size: 14px; color: #ddd; margin-left: 10px; font-weight: 500;}
+
+        input[type=range] { -webkit-appearance: none; background: rgba(255,255,255,0.3); height: 4px; border-radius: 2px; outline: none; width: 70px; cursor: pointer; transition: 0.2s;}
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+        input[type=range]:hover { background: rgba(255,255,255,0.6); }
+
+        #hls-error-msg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: #ff5252; padding: 20px; border-radius: 8px; z-index: 1001; display: none; font-size: 16px; text-align: center; border: 1px solid #ff5252;}
 
         /* --- MODAIS --- */
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px;}
@@ -204,16 +229,56 @@
     </div>
 
     <div id="video-modal">
-        <button class="btn-close-video" onclick="fecharPlayer()">✕ Fechar Player</button>
-        <div id="hls-error-msg">Erro de CORS/Conexão com o servidor de vídeo.</div>
-        <div class="video-wrapper">
-            <video id="player" controls autoplay playsinline></video>
+        <div class="video-wrapper" id="video-wrapper">
+            
+            <div class="video-header" id="video-header">
+                <div class="video-title" id="video-title">Vídeo</div>
+                <button class="btn-fechar-video" onclick="fecharPlayer()">✕ Fechar Player</button>
+            </div>
+
+            <div id="hls-error-msg">
+                <strong>O Navegador Bloqueou o Vídeo 🔒</strong><br>
+                Use o aplicativo localmente, via Electron ou ative a extensão de CORS.
+            </div>
+
+            <video id="player" autoplay playsinline></video>
+            
+            <div class="yt-controls" id="yt-controls">
+                <div class="yt-progress-container" id="yt-progress-container">
+                    <div class="yt-progress-filled" id="yt-progress"></div>
+                </div>
+                
+                <div class="yt-bottom-row">
+                    <div class="yt-left">
+                        <button class="yt-btn" id="yt-rewind-btn" title="Voltar 10s">⏪</button>
+                        <button class="yt-btn" id="yt-play-btn" title="Play/Pause">⏸</button>
+                        <button class="yt-btn" id="yt-forward-btn" title="Avançar 10s">⏩</button>
+                        
+                        <div style="display:flex; align-items:center; gap:5px; margin-left:5px;">
+                            <button class="yt-btn" id="yt-mute-btn" title="Mutar/Desmutar" style="font-size: 18px;">🔊</button>
+                            <input type="range" id="yt-vol-slider" min="0" max="1" step="0.1" value="1">
+                        </div>
+
+                        <span class="yt-time" id="yt-time">00:00 / 00:00</span>
+                    </div>
+                    
+                    <div class="yt-right">
+                        <button class="yt-btn" id="yt-download-btn" title="Baixar Vídeo Offline">📥</button>
+                        <button class="yt-btn" onclick="abrirMenuCast()" title="Transmitir para TV">
+                            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm18-7H5v1.63c3.96 1.28 7.09 4.41 8.37 8.37H19V7zM1 10v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="currentColor"/></svg>
+                        </button>
+                        <button class="yt-btn" id="yt-fullscreen-btn" title="Tela Cheia">⛶</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <div id="resume-modal" class="custom-modal">
         <div class="modal-content">
             <h3>Continuar Assistindo?</h3>
+            <p>Você parou em <span id="resume-time" style="font-weight: bold; color: #ffd700;">00:00</span> da última vez.</p>
             <div style="display:flex; justify-content: center; gap:10px; margin-top:15px;">
                 <button class="btn-acao" onclick="iniciarVideoHLS(0)">Do Início</button>
                 <button class="btn-play-big" style="padding: 8px 25px; font-size: 14px;" id="btn-resume-continue">Continuar</button>
@@ -304,7 +369,7 @@
         function abrirModalAdulto(callback) {
             callbackSenhaAdulto = callback;
             const input = document.getElementById('adult-pwd-input');
-            input.value = ''; input.placeholder = getSenhaAdulto() === '5274' ? "Senha padrão: 5274" : "Digite sua senha...";
+            input.value = ''; input.placeholder = getSenhaAdulto() === '5274' ? "Senha padrão: 5274" : "Digite sua senha secreta...";
             document.getElementById('adult-error').style.display = 'none';
             document.getElementById('adult-modal').style.display = 'flex';
             input.focus();
@@ -381,7 +446,7 @@
                 } else { throw new Error("Usuário ou Senha incorretos."); }
             } catch (e) {
                 mensagem.className = 'erro'; 
-                mensagem.innerText = "Erro de conexão. Se a URL for HTTP, o navegador está bloqueando. (Libere no cadeado ou ative a extensão CORS).";
+                mensagem.innerText = "Erro de conexão. O link no navegador está sendo bloqueado (CORS ou Mixed Content).";
             } finally { btnEntrar.disabled = false; }
         });
 
@@ -549,12 +614,59 @@
             grid.appendChild(card);
         }
 
-        // --- NATIVE PLAYER DE VÍDEO ---
+        // --- PLAYER DE VÍDEO (COMPLETO) ---
         const player = document.getElementById('player');
+        const videoWrapper = document.getElementById('video-wrapper');
+        const playBtn = document.getElementById('yt-play-btn');
+        const progressBar = document.getElementById('yt-progress');
+        const progressContainer = document.getElementById('yt-progress-container');
+        const timeDisplay = document.getElementById('yt-time');
+        const muteBtn = document.getElementById('yt-mute-btn');
+        const volSlider = document.getElementById('yt-vol-slider');
         
-        // Mantemos o localStorage para salvar onde parou
+        let hideControlsTimeout;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "00:00";
+            let min = Math.floor(seconds / 60);
+            let sec = Math.floor(seconds % 60);
+            return `${min < 10 ? '0'+min : min}:${sec < 10 ? '0'+sec : sec}`;
+        }
+
+        document.getElementById('yt-rewind-btn').onclick = () => { player.currentTime = Math.max(0, player.currentTime - 10); };
+        document.getElementById('yt-forward-btn').onclick = () => { player.currentTime = Math.min(player.duration, player.currentTime + 10); };
+        
+        muteBtn.onclick = () => {
+            player.muted = !player.muted;
+            volSlider.value = player.muted ? 0 : player.volume;
+            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
+        };
+        
+        volSlider.oninput = (e) => {
+            player.volume = e.target.value;
+            player.muted = player.volume == 0;
+            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
+        };
+
+        document.getElementById('yt-download-btn').onclick = () => {
+            alert("Atenção: O vídeo será aberto em uma nova guia para download.\n\nPara salvar, clique no ícone de 3 pontos no vídeo e escolha 'Fazer o download' ou 'Salvar Vídeo'.");
+            window.open(urlVideoAtual, '_blank');
+        };
+
+        playBtn.onclick = () => { if(player.paused) player.play(); else player.pause(); };
+        player.onplay = () => playBtn.innerHTML = '⏸';
+        player.onpause = () => playBtn.innerHTML = '▶';
+
+        player.onerror = () => { document.getElementById('hls-error-msg').style.display = 'block'; };
+
         player.ontimeupdate = () => {
-            if (tipoAtual !== 'live' && player.currentTime > 5 && player.duration > 0) {
+            if(tipoAtual === 'live') return; 
+            if(!player.duration) return;
+            const percent = (player.currentTime / player.duration) * 100;
+            progressBar.style.width = percent + '%';
+            timeDisplay.innerText = `${formatTime(player.currentTime)} / ${formatTime(player.duration)}`;
+
+            if (player.currentTime > 5 && player.duration > 0) {
                 if (player.currentTime < player.duration - 15) {
                     localStorage.setItem('iptv_time_' + videoIdAtual, player.currentTime);
                 } else {
@@ -563,8 +675,22 @@
             }
         };
 
-        player.onerror = () => {
-            document.getElementById('hls-error-msg').style.display = 'block';
+        progressContainer.onclick = (e) => {
+            if(tipoAtual === 'live') return;
+            const rect = progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            player.currentTime = pos * player.duration;
+        };
+
+        document.getElementById('yt-fullscreen-btn').onclick = () => {
+            if (!document.fullscreenElement) { videoWrapper.requestFullscreen().catch(e=>console.log(e)); } 
+            else { document.exitFullscreen(); }
+        };
+
+        videoWrapper.onmousemove = () => {
+            videoWrapper.classList.add('show-controls');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => { videoWrapper.classList.remove('show-controls'); }, 3000);
         };
 
         function prepararVideo(id, ext, nome) {
@@ -582,7 +708,9 @@
             if (tipoAtual !== 'live') {
                 let savedTime = localStorage.getItem('iptv_time_' + videoIdAtual);
                 if (savedTime && parseFloat(savedTime) > 5) {
+                    document.getElementById('resume-time').innerText = formatTime(parseFloat(savedTime));
                     document.getElementById('resume-modal').style.display = 'flex';
+                    
                     document.getElementById('btn-resume-continue').onclick = () => {
                         document.getElementById('resume-modal').style.display = 'none';
                         iniciarVideoHLS(parseFloat(savedTime));
@@ -596,7 +724,23 @@
         function iniciarVideoHLS(startTime) {
             document.getElementById('resume-modal').style.display = 'none';
             document.getElementById('video-modal').style.display = 'flex';
+            document.getElementById('video-title').innerText = nomeVideoAtual;
             document.getElementById('hls-error-msg').style.display = 'none';
+            
+            if(tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) {
+                document.getElementById('yt-download-btn').style.display = 'none';
+            } else {
+                document.getElementById('yt-download-btn').style.display = 'inline-flex';
+            }
+
+            if(tipoAtual === 'live') {
+                timeDisplay.innerText = '🔴 Ao Vivo';
+                progressContainer.style.display = 'none';
+            } else {
+                timeDisplay.innerText = 'Carregando...';
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+            }
 
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
 
@@ -624,9 +768,12 @@
 
         function fecharPlayer() {
             document.getElementById('video-modal').style.display = 'none';
+            if (document.fullscreenElement) document.exitFullscreen();
             player.pause(); player.src = '';
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
         }
+
+        function abrirMenuCast() { alert("Transmitindo via Web:\n\n💻 PC (Chrome): Clique com o botão direito no vídeo e selecione 'Transmitir...'\n\n📱 iOS (Safari): Use o ícone nativo do AirPlay."); }
 
         // --- LÓGICA DE PESQUISA ---
         function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
@@ -648,7 +795,7 @@
             fecharDetalhes(); 
             document.getElementById('titulo-sessao').innerText = `Procurando "${termo}" em tudo...`; 
             document.getElementById('btn-voltar').style.display = 'block';
-            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo...</div>';
+            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo (Isso pode levar alguns segundos)...</div>';
             
             let acaoApi = tipoAtual === 'live' ? 'get_live_streams' : tipoAtual === 'vod' ? 'get_vod_streams' : 'get_series';
             try {
