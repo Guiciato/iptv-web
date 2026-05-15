@@ -77,7 +77,6 @@
         .card-img { width: 100%; height: 200px; background-color: #111; object-fit: cover; padding: 0; }
         .card-title { padding: 12px 10px; font-size: 14px; font-weight: bold; flex-grow: 1; display: flex; align-items: center; justify-content: center; color: #eee; text-transform: uppercase; }
 
-        /* Estilo Thumb Episódios (Horizontal) */
         .card-episode { background-color: #1a1a1a; border-radius: 8px; overflow: hidden; text-align: center; cursor: pointer; transition: 0.2s; border: 1px solid #333; display: flex; flex-direction: column; }
         .card-episode:hover { transform: translateY(-3px); border-color: #ff0000; }
         .card-episode .card-img { width: 100%; aspect-ratio: 16/9; height: auto; background-color: #000; object-fit: cover; }
@@ -111,7 +110,6 @@
 
         .btn-close-details { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); border: none; color: #fff; font-size: 24px; cursor: pointer; z-index: 10; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .btn-close-details:hover { color: #ff5252; background: rgba(0,0,0,0.8); }
-
         .details-extra-content { padding: 20px; z-index: 2; position: relative; }
         
         .epg-container { background: rgba(20,20,20,0.9); padding: 15px; border-radius: 8px; border-left: 4px solid #ffd700; margin-bottom: 20px; }
@@ -121,34 +119,35 @@
 
         /* --- PLAYER MODAL ESTILO YOUTUBE --- */
         #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
-        
         .video-wrapper { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #000; overflow: hidden; }
         video { width: 100%; height: 100%; outline: none; }
 
-        /* Header do Vídeo (esmaece junto com controles) */
         .video-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); z-index: 1001; opacity: 0; transition: opacity 0.3s; pointer-events: none;}
         .video-wrapper.show-controls .video-header { opacity: 1; pointer-events: auto; }
         .video-title { font-size: 20px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 3px #000; }
         .btn-fechar-video { background-color: rgba(20,20,20,0.8); color: white; border: 1px solid #444; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
         .btn-fechar-video:hover { background-color: #ff5252; border-color: #ff5252; }
 
-        /* Controles Inferiores (YT Style) */
         .yt-controls { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 0 20px 15px 20px; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.3s; z-index: 1002; }
         .video-wrapper.show-controls .yt-controls { opacity: 1; }
 
-        /* Barra de Progresso Vermelha */
         .yt-progress-container { width: 100%; height: 5px; background: rgba(255,255,255,0.2); cursor: pointer; position: relative; margin-bottom: 12px; transition: height 0.1s; border-radius: 2px;}
         .yt-progress-container:hover { height: 8px; }
         .yt-progress-filled { height: 100%; background: #ff0000; width: 0%; position: relative; border-radius: 2px; }
         .yt-progress-filled::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: #ff0000; border-radius: 50%; opacity: 0; transition: opacity 0.1s; }
         .yt-progress-container:hover .yt-progress-filled::after { opacity: 1; }
 
-        .yt-bottom-row { display: flex; justify-content: space-between; align-items: center; }
-        .yt-left, .yt-right { display: flex; align-items: center; gap: 20px; }
+        .yt-bottom-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
+        .yt-left, .yt-right { display: flex; align-items: center; gap: 15px; }
         
         .yt-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: 0.2s; outline: none;}
         .yt-btn:hover { transform: scale(1.1); color: #ff0000; }
         .yt-time { font-size: 14px; color: #ddd; margin-left: 10px; font-weight: 500;}
+
+        /* Estilo Slider Volume */
+        input[type=range] { -webkit-appearance: none; background: rgba(255,255,255,0.3); height: 4px; border-radius: 2px; outline: none; width: 70px; cursor: pointer; transition: 0.2s;}
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+        input[type=range]:hover { background: rgba(255,255,255,0.6); }
 
         /* --- MODAIS --- */
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px;}
@@ -169,7 +168,7 @@
             <h2>Entrar com Xtream</h2>
             <form id="loginForm" style="width: 100%;">
                 <div class="input-group"><label>Nome do Perfil</label><input type="text" id="profileName" required placeholder="Ex: Casa"></div>
-                <div class="input-group"><label>URL do Servidor</label><input type="url" id="serverUrl" required placeholder="http://..."></div>
+                <div class="input-group"><label>URL do Servidor</label><input type="url" id="serverUrl" required placeholder="https://..."></div>
                 <div class="input-group"><label>Usuário</label><input type="text" id="username" required></div>
                 <div class="input-group"><label>Senha</label><input type="password" id="password" required></div>
                 <label class="checkbox-group"><input type="checkbox" id="lembrarSenha"> Lembrar meus dados</label>
@@ -258,11 +257,20 @@
                 
                 <div class="yt-bottom-row">
                     <div class="yt-left">
+                        <button class="yt-btn" id="yt-rewind-btn" title="Voltar 10s">⏪</button>
                         <button class="yt-btn" id="yt-play-btn" title="Play/Pause">⏸</button>
+                        <button class="yt-btn" id="yt-forward-btn" title="Avançar 10s">⏩</button>
+                        
+                        <div style="display:flex; align-items:center; gap:5px; margin-left:5px;">
+                            <button class="yt-btn" id="yt-mute-btn" title="Mutar/Desmutar" style="font-size: 18px;">🔊</button>
+                            <input type="range" id="yt-vol-slider" min="0" max="1" step="0.1" value="1">
+                        </div>
+
                         <span class="yt-time" id="yt-time">00:00 / 00:00</span>
                     </div>
                     
                     <div class="yt-right">
+                        <button class="yt-btn" id="yt-download-btn" title="Baixar Vídeo Offline">📥</button>
                         <button class="yt-btn" onclick="abrirMenuCast()" title="Transmitir para TV">
                             <svg viewBox="0 0 24 24" width="22" height="22"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm18-7H5v1.63c3.96 1.28 7.09 4.41 8.37 8.37H19V7zM1 10v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="currentColor"/></svg>
                         </button>
@@ -271,6 +279,17 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div id="resume-modal" class="custom-modal">
+        <div class="modal-content">
+            <h3>Continuar Assistindo?</h3>
+            <p>Você parou em <span id="resume-time" style="font-weight: bold; color: #ffd700;">00:00</span> da última vez.</p>
+            <div style="display:flex; justify-content: center; gap:10px; margin-top:15px;">
+                <button class="btn-acao" onclick="iniciarVideoHLS(0)">Do Início</button>
+                <button class="btn-play-big" style="padding: 8px 25px; font-size: 14px;" id="btn-resume-continue">Continuar</button>
+            </div>
         </div>
     </div>
 
@@ -307,7 +326,7 @@
         let credenciais = { profile: '', url: '', user: '', pass: '' };
         let tipoAtual = 'live'; let modoAtual = 'categorias';
         let timeoutPesquisa = null; let hlsInfo = null;
-        let urlVideoAtual = ''; let nomeVideoAtual = '';
+        let urlVideoAtual = ''; let nomeVideoAtual = ''; let videoIdAtual = '';
         let infoVideoAtual = null; let serieDadosCompletos = null; 
         let meusFavoritos = { live: [], vod: [], series: [] };
 
@@ -325,20 +344,7 @@
         };
         function salvarFavoritos() { localStorage.setItem('iptv_favoritos', JSON.stringify(meusFavoritos)); }
 
-        // --- FUNÇÕES DE LOGO E EMOJIS ---
-        function obterLogoMarcaFixa(nome) {
-            let n = nome.toLowerCase().trim();
-            if (n === 'globo' || n.includes('tv globo') || n.includes('rede globo')) return 'https://upload.wikimedia.org/wikipedia/commons/2/24/TV_Globo_logo.svg'; 
-            if (n.includes('record')) return 'https://upload.wikimedia.org/wikipedia/commons/4/46/Record_logo.svg';
-            if (n.includes('sbt')) return 'https://upload.wikimedia.org/wikipedia/commons/b/b8/SBT_logo_2021.svg';
-            if (n.includes('band')) return 'https://upload.wikimedia.org/wikipedia/commons/1/15/Band_logo.svg';
-            if (n.includes('sportv')) return 'https://upload.wikimedia.org/wikipedia/commons/4/41/SporTV_logo.svg';
-            if (n.includes('premiere')) return 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Premiere_logo.svg';
-            if (n.includes('telecine')) return 'https://upload.wikimedia.org/wikipedia/commons/8/87/Telecine_logo.svg';
-            if (n.includes('hbo') || n.includes('max')) return 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg';
-            return null;
-        }
-
+        // --- FUNÇÕES DE EMOJIS ---
         function obterEmojiCategoria(nome) {
             let n = nome.toLowerCase();
             if (n.includes('comédia')) return '😂';
@@ -396,7 +402,7 @@
             setTimeout(() => { fecharModalTrocarSenha(); }, 1500);
         }
 
-        // --- LOGIN ---
+        // --- LOGIN (COM DICA DE OURO HTTPS) ---
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault(); 
             const btnEntrar = document.getElementById('btnEntrar');
@@ -404,8 +410,12 @@
             const lembrar = document.getElementById('lembrarSenha').checked;
             
             credenciais.profile = document.getElementById('profileName').value.trim();
+            
+            // DICA DE OURO: Força o HTTPS e formata a URL
             let urlLimpa = document.getElementById('serverUrl').value.trim().replace(/\/+$/, "");
-            if (urlLimpa !== "" && !urlLimpa.startsWith('http')) urlLimpa = 'http://' + urlLimpa;
+            urlLimpa = urlLimpa.replace("http://", "https://");
+            if (urlLimpa !== "" && !urlLimpa.startsWith('https://')) urlLimpa = 'https://' + urlLimpa;
+            
             credenciais.url = urlLimpa;
             credenciais.user = document.getElementById('username').value.trim();
             credenciais.pass = document.getElementById('password').value.trim();
@@ -454,7 +464,7 @@
                 } else { throw new Error("Usuário ou Senha incorretos."); }
             } catch (e) {
                 mensagem.className = 'erro'; 
-                mensagem.innerText = e.message === "Failed to fetch" ? "Erro de conexão. O link pode estar errado ou ocorre bloqueio de CORS." : e.message;
+                mensagem.innerText = e.message === "Failed to fetch" ? "Erro de conexão. O link pode estar errado ou o servidor está offline." : e.message;
             } finally { btnEntrar.disabled = false; }
         });
 
@@ -464,7 +474,7 @@
             document.getElementById('login-section').style.display = 'flex'; 
         }
 
-        // --- CARREGAMENTO API ---
+        // --- CARREGAMENTO API (COM PROTEÇÃO DE IMAGENS QUEBRADAS) ---
         async function carregarCategorias(acaoApi, tituloTela, botaoClicado, tipo) {
             fecharDetalhes(); document.querySelectorAll('.nav-btn:not(.btn-sair):not(.btn-pwd-nav)').forEach(btn => btn.classList.remove('active')); if(botaoClicado) botaoClicado.classList.add('active');
             tipoAtual = tipo; modoAtual = 'categorias'; document.getElementById('btn-voltar').style.display = 'none'; document.getElementById('titulo-sessao').innerText = `Categorias - ${tituloTela}`;
@@ -477,9 +487,16 @@
                 
                 categorias.forEach(cat => {
                     const card = document.createElement('div'); card.className = 'card-item';
-                    let imgUrl = obterLogoMarcaFixa(cat.category_name) || cat.category_icon || `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.category_name)}&background=222&color=fff&size=200`;
+                    let fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(cat.category_name)}&background=222&color=fff&size=200`;
+                    
+                    // Tratamento seguro para imagem da API
+                    let imgUrl = (cat.category_icon && cat.category_icon.trim() !== '') ? cat.category_icon : fallbackAvatar;
                     let emoji = obterEmojiCategoria(cat.category_name);
-                    let icone = emoji ? `<div class="folder-icon" style="font-size: 55px;">${emoji}</div>` : `<img src="${imgUrl}" style="height:160px; object-fit:contain; background:#111;">`;
+                    
+                    // Adicionado onerror para blindar imagens de provedores com links antigos/quebrados
+                    let icone = emoji 
+                        ? `<div class="folder-icon" style="font-size: 55px;">${emoji}</div>` 
+                        : `<img src="${imgUrl}" style="height:160px; object-fit:contain; background:#111;" onerror="this.onerror=null; this.src='${fallbackAvatar}';">`;
                     
                     card.innerHTML = `${icone}<div class="card-title">${cat.category_name}</div>`;
                     card.onclick = () => interceptarCarregarConteudo(cat.category_id, cat.category_name);
@@ -505,8 +522,9 @@
             itens.forEach(item => {
                 const card = document.createElement('div'); card.className = 'card-item';
                 const nomeItem = item.name || item.title;
-                const imgUrl = item.stream_icon || item.cover || `https://ui-avatars.com/api/?name=${encodeURIComponent(nomeItem)}&background=222&color=fff&size=200`;
-                card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(nomeItem)}&background=222&color=fff&size=200'"><div class="card-title">${nomeItem}</div>`;
+                const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(nomeItem)}&background=222&color=fff&size=200`;
+                const imgUrl = item.stream_icon || item.cover || fallbackAvatar;
+                card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${fallbackAvatar}';"><div class="card-title">${nomeItem}</div>`;
                 card.onclick = () => interceptarAbrirDetalhes(item, nomeItem);
                 grid.appendChild(card);
             });
@@ -527,10 +545,12 @@
             document.getElementById('details-hero').style.backgroundImage = `url('${capa}')`;
             document.getElementById('details-plot').innerText = 'Carregando informações...';
             document.getElementById('details-epg').style.display = 'none'; document.getElementById('details-extra').style.display = 'none';
-            document.getElementById('btn-voltar-temporadas').style.display = 'none'; // Esconde botão de voltar na tela principal
+            document.getElementById('btn-voltar-temporadas').style.display = 'none';
             
             document.getElementById('btn-details-play').style.display = (tipoAtual === 'series') ? 'none' : 'block'; 
-            document.getElementById('btn-details-play').onclick = () => iniciarVideoWeb();
+            
+            // Alterado para chamar prepararVideo (que verifica resume time)
+            document.getElementById('btn-details-play').onclick = () => prepararVideo(infoVideoAtual.id, extensao, nome);
             atualizarBotaoFavDetalhes();
 
             if (tipoAtual === 'vod') {
@@ -544,7 +564,7 @@
 
         async function renderizarTemporadasSérie(id, nomeSerie) {
             document.getElementById('details-extra').style.display = 'block'; 
-            document.getElementById('btn-voltar-temporadas').style.display = 'none'; // Esconde o botão de voltar episódios
+            document.getElementById('btn-voltar-temporadas').style.display = 'none'; 
             document.getElementById('details-extra-title').innerText = 'Temporadas';
             const gridExtra = document.getElementById('details-extra-grid'); gridExtra.innerHTML = '';
             
@@ -568,8 +588,6 @@
 
         function renderizarEpisodiosSérie(numTemporada, nomeSerie, idSerie) {
             document.getElementById('details-extra-title').innerText = `Temporada ${numTemporada}`;
-            
-            // Exibir botão para voltar à lista de temporadas
             const btnVoltarTemp = document.getElementById('btn-voltar-temporadas');
             btnVoltarTemp.style.display = 'inline-block';
             btnVoltarTemp.onclick = () => renderizarTemporadasSérie(idSerie, nomeSerie);
@@ -578,19 +596,16 @@
             
             serieDadosCompletos.episodes[numTemporada].forEach(ep => {
                 const card = document.createElement('div'); 
-                card.className = 'card-episode'; // Nova classe CSS para thumbnail 16:9
+                card.className = 'card-episode'; 
                 const title = `E${ep.episode_num} - ${ep.title}`;
                 
-                // Tenta puxar a imagem de "Trecho" (movie_image, cover), se não tiver usa a capa da série
                 let thumbUrl = ep.info?.movie_image || ep.info?.cover || ep.info?.backdrop_path || infoVideoAtual.capa;
                 if (!thumbUrl || thumbUrl.trim() === '') thumbUrl = infoVideoAtual.capa;
 
-                card.innerHTML = `<img src="${thumbUrl}" class="card-img" onerror="this.src='${infoVideoAtual.capa}'"><div class="card-title">${title}</div>`;
-                card.onclick = () => {
-                    urlVideoAtual = `${credenciais.url}/series/${credenciais.user}/${credenciais.pass}/${ep.id}.${ep.container_extension || 'mp4'}`;
-                    nomeVideoAtual = `${nomeSerie} - ${title}`;
-                    iniciarVideoWeb(); 
-                };
+                card.innerHTML = `<img src="${thumbUrl}" class="card-img" onerror="this.onerror=null; this.src='${infoVideoAtual.capa}'"><div class="card-title">${title}</div>`;
+                
+                // Alterado para chamar prepararVideo (Resume)
+                card.onclick = () => prepararVideo(ep.id, ep.container_extension || 'mp4', `${nomeSerie} - ${title}`);
                 gridExtra.appendChild(card);
             });
         }
@@ -619,20 +634,23 @@
         }
         function criarCardFavorito(item, grid) {
             const card = document.createElement('div'); card.className = 'card-item';
-            const imgUrl = item.stream_icon ? item.stream_icon : `https://ui-avatars.com/api/?name=${encodeURIComponent(item.nome)}&background=222&color=fff&size=200`;
-            const imgTag = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(item.nome)}&background=222&color=fff&size=200';">`;
+            const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(item.nome)}&background=222&color=fff&size=200`;
+            const imgUrl = item.stream_icon ? item.stream_icon : fallbackAvatar;
+            const imgTag = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${fallbackAvatar}';">`;
             card.innerHTML = `${imgTag}<div class="card-title">${item.nome}</div>`;
             card.onclick = () => interceptarAbrirDetalhes(item, item.nome);
             grid.appendChild(card);
         }
 
-        // --- PLAYER DE VÍDEO COM CONTROLES YT STYLE ---
+        // --- PLAYER DE VÍDEO COM CONTROLES YT STYLE + DOWNLOAD + RESUME ---
         const player = document.getElementById('player');
         const videoWrapper = document.getElementById('video-wrapper');
         const playBtn = document.getElementById('yt-play-btn');
         const progressBar = document.getElementById('yt-progress');
         const progressContainer = document.getElementById('yt-progress-container');
         const timeDisplay = document.getElementById('yt-time');
+        const muteBtn = document.getElementById('yt-mute-btn');
+        const volSlider = document.getElementById('yt-vol-slider');
         
         let hideControlsTimeout;
 
@@ -643,17 +661,46 @@
             return `${min < 10 ? '0'+min : min}:${sec < 10 ? '0'+sec : sec}`;
         }
 
-        // Eventos Customizados do Player
+        // Ações dos novos botões
+        document.getElementById('yt-rewind-btn').onclick = () => { player.currentTime = Math.max(0, player.currentTime - 10); };
+        document.getElementById('yt-forward-btn').onclick = () => { player.currentTime = Math.min(player.duration, player.currentTime + 10); };
+        
+        muteBtn.onclick = () => {
+            player.muted = !player.muted;
+            volSlider.value = player.muted ? 0 : player.volume;
+            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
+        };
+        
+        volSlider.oninput = (e) => {
+            player.volume = e.target.value;
+            player.muted = player.volume == 0;
+            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
+        };
+
+        document.getElementById('yt-download-btn').onclick = () => {
+            alert("Atenção: O vídeo será aberto em uma nova guia para download.\n\nPara salvar, clique no ícone de 3 pontos no vídeo e escolha 'Fazer o download' ou 'Salvar Vídeo'.");
+            window.open(urlVideoAtual, '_blank');
+        };
+
         playBtn.onclick = () => { if(player.paused) player.play(); else player.pause(); };
         player.onplay = () => playBtn.innerHTML = '⏸';
         player.onpause = () => playBtn.innerHTML = '▶';
 
         player.ontimeupdate = () => {
-            if(tipoAtual === 'live') return; // Live não usa barra de progresso
+            if(tipoAtual === 'live') return; 
             if(!player.duration) return;
             const percent = (player.currentTime / player.duration) * 100;
             progressBar.style.width = percent + '%';
             timeDisplay.innerText = `${formatTime(player.currentTime)} / ${formatTime(player.duration)}`;
+
+            // Salva progresso inteligente (>5s e não no fim)
+            if (player.currentTime > 5 && player.duration > 0) {
+                if (player.currentTime < player.duration - 15) {
+                    localStorage.setItem('iptv_time_' + videoIdAtual, player.currentTime);
+                } else {
+                    localStorage.removeItem('iptv_time_' + videoIdAtual);
+                }
+            }
         };
 
         progressContainer.onclick = (e) => {
@@ -668,25 +715,54 @@
             else { document.exitFullscreen(); }
         };
 
-        // Mostrar/Esconder controles ao mover o mouse
         videoWrapper.onmousemove = () => {
             videoWrapper.classList.add('show-controls');
             clearTimeout(hideControlsTimeout);
             hideControlsTimeout = setTimeout(() => { videoWrapper.classList.remove('show-controls'); }, 3000);
         };
 
-        function iniciarVideoWeb() {
-            if(tipoAtual !== 'series') {
-                urlVideoAtual = tipoAtual === 'live' 
-                    ? `${credenciais.url}/live/${credenciais.user}/${credenciais.pass}/${infoVideoAtual.id}.m3u8`
-                    : `${credenciais.url}/movie/${credenciais.user}/${credenciais.pass}/${infoVideoAtual.id}.${infoVideoAtual.extensao}`;
-                nomeVideoAtual = infoVideoAtual.nome; 
-            }
+        // Função intermediária para decidir a URL e verificar o progresso
+        function prepararVideo(id, ext, nome) {
+            videoIdAtual = id;
+            nomeVideoAtual = nome;
 
+            if(tipoAtual === 'series') {
+                urlVideoAtual = `${credenciais.url}/series/${credenciais.user}/${credenciais.pass}/${id}.${ext || 'mp4'}`;
+            } else if(tipoAtual === 'live') {
+                urlVideoAtual = `${credenciais.url}/live/${credenciais.user}/${credenciais.pass}/${id}.m3u8`;
+            } else {
+                urlVideoAtual = `${credenciais.url}/movie/${credenciais.user}/${credenciais.pass}/${id}.${ext || 'mp4'}`;
+            }
+            
+            // Check Resume (Se não for Live TV)
+            if (tipoAtual !== 'live') {
+                let savedTime = localStorage.getItem('iptv_time_' + videoIdAtual);
+                if (savedTime && parseFloat(savedTime) > 5) {
+                    document.getElementById('resume-time').innerText = formatTime(parseFloat(savedTime));
+                    document.getElementById('resume-modal').style.display = 'flex';
+                    
+                    document.getElementById('btn-resume-continue').onclick = () => {
+                        document.getElementById('resume-modal').style.display = 'none';
+                        iniciarVideoHLS(parseFloat(savedTime));
+                    };
+                    return;
+                }
+            }
+            iniciarVideoHLS(0);
+        }
+
+        function iniciarVideoHLS(startTime) {
+            document.getElementById('resume-modal').style.display = 'none';
             document.getElementById('video-modal').style.display = 'flex';
             document.getElementById('video-title').innerText = nomeVideoAtual;
             
-            // Ajustar visualização dependendo se é Ao Vivo ou Gravado
+            // Regras UI: Download não é suportado para m3u8 (Live TV)
+            if(tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) {
+                document.getElementById('yt-download-btn').style.display = 'none';
+            } else {
+                document.getElementById('yt-download-btn').style.display = 'inline-flex';
+            }
+
             if(tipoAtual === 'live') {
                 timeDisplay.innerText = '🔴 Ao Vivo';
                 progressContainer.style.display = 'none';
@@ -696,15 +772,20 @@
                 progressBar.style.width = '0%';
             }
 
-            if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
-                if (hlsInfo) hlsInfo.destroy();
-                hlsInfo = new Hls(); hlsInfo.loadSource(urlVideoAtual); hlsInfo.attachMedia(player);
-                hlsInfo.on(Hls.Events.MANIFEST_PARSED, () => player.play());
-            } else if (player.canPlayType('application/vnd.apple.mpegurl')) {
-                player.src = urlVideoAtual;
+            if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
+
+            const aplicarStartTime = () => {
+                if(startTime > 0) player.currentTime = startTime;
                 player.play();
+            };
+
+            if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
+                hlsInfo = new Hls(); hlsInfo.loadSource(urlVideoAtual); hlsInfo.attachMedia(player);
+                hlsInfo.on(Hls.Events.MANIFEST_PARSED, aplicarStartTime);
             } else { 
-                player.src = urlVideoAtual; player.play(); 
+                player.src = urlVideoAtual; 
+                player.onloadedmetadata = () => { if(startTime > 0) player.currentTime = startTime; };
+                player.play(); 
             }
         }
 
