@@ -70,8 +70,6 @@
         .card-img { width: 100%; height: 200px; background-color: #111; object-fit: contain; padding: 5px; }
         .card-title { padding: 12px 10px; font-size: 14px; font-weight: bold; flex-grow: 1; display: flex; align-items: center; justify-content: center; color: #eee; text-transform: uppercase; }
 
-        .folder-icon { font-size: 60px; display: flex; align-items: center; justify-content: center; height: 160px; transition: 0.3s; }
-        
         /* TELA DE DETALHES */
         #details-screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #0d0d0d; z-index: 5; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .details-hero { position: relative; width: 100%; min-height: 400px; display: flex; padding: 40px; gap: 30px; align-items: flex-end; background-size: cover; background-position: center; flex-wrap: wrap; }
@@ -96,13 +94,13 @@
         #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 1000; flex-direction: column; }
         .video-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #111; border-bottom: 1px solid #333; }
         .video-title { font-size: 18px; font-weight: bold; color: #ffffff; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 15px; }
-        .btn-fechar-video { background-color: #ff5252; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        .btn-fechar-video { background-color: #ff5252; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .btn-fechar-video:hover { background-color: #ff0000; }
         
         .video-container { flex: 1; display: flex; justify-content: center; align-items: center; background: #000; position: relative; width: 100%; }
         video { width: 100%; height: 100%; outline: none; max-height: calc(100vh - 140px); background: #000; }
         
-        #video-error { display: none; position: absolute; background: rgba(0,0,0,0.9); padding: 20px; border-radius: 8px; color: #ff5252; text-align: center; border: 1px solid #ff5252; z-index: 1001;}
+        #video-error { display: none; position: absolute; background: rgba(0,0,0,0.9); padding: 20px; border-radius: 8px; color: #ff5252; text-align: center; border: 1px solid #ff5252; z-index: 1001; }
         .btn-forcar { background: #00bcd4; color: #000; font-weight: bold; border: none; padding: 10px 20px; border-radius: 6px; margin-top: 15px; cursor: pointer; }
 
         .custom-bottom-bar { background: #111; padding: 15px 20px; display: flex; justify-content: center; gap: 15px; border-top: 1px solid #333; flex-wrap: wrap; }
@@ -128,7 +126,7 @@
             <h2>Entrar com Xtream</h2>
             <form id="loginForm" style="width: 100%;">
                 <div class="input-group"><label>Nome do Perfil</label><input type="text" id="profileName" required placeholder="Ex: Casa"></div>
-                <div class="input-group"><label>URL do Servidor</label><input type="url" id="serverUrl" required placeholder="http://..."></div>
+                <div class="input-group"><label>URL do Servidor</label><input type="url" id="serverUrl" required placeholder="Ex: http://oriontv.sbs"></div>
                 <div class="input-group"><label>Usuário</label><input type="text" id="username" required></div>
                 <div class="input-group"><label>Senha</label><input type="password" id="password" required></div>
                 <label class="checkbox-group"><input type="checkbox" id="lembrarSenha"> Lembrar meus dados</label>
@@ -185,7 +183,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="details-extra-content" id="details-extra">
+                <div class="details-extra-content">
                     <button class="btn-voltar" id="btn-voltar-temporadas" style="margin-bottom: 20px; display: none;" onclick="voltarParaTemporadas()">⬅ Voltar Temporadas</button>
                     <div class="grid-container" id="details-extra-grid"></div>
                 </div>
@@ -200,7 +198,7 @@
         </div>
         <div class="video-container">
             <div id="video-error">
-                <strong>Bloqueio de Navegador / Servidor 🔒</strong><br>
+                <strong>O Navegador bloqueou o vídeo. 🔒</strong><br>
                 <button class="btn-forcar" onclick="forcarAbaExterna()">Forçar Vídeo (Nova Aba)</button>
             </div>
             <video id="player" controls autoplay playsinline></video>
@@ -225,7 +223,7 @@
     <div id="adult-modal" class="custom-modal">
         <div class="modal-content">
             <h3>Conteúdo +18 🔞</h3>
-            <input type="password" id="adult-pwd-input" placeholder="Digite a senha secreta...">
+            <input type="password" id="adult-pwd-input" placeholder="Digite a senha...">
             <div id="adult-error" style="color:#ff5252; font-size:12px; margin-top:5px; display:none;">Senha incorreta!</div>
             <div style="display:flex; justify-content: center; gap:10px; margin-top:15px;">
                 <button class="btn-acao" onclick="fecharModalAdulto()">Cancelar</button>
@@ -237,10 +235,9 @@
     <div id="change-pwd-modal" class="custom-modal">
         <div class="modal-content">
             <h3>Trocar Senha +18</h3>
-            <p>A senha padrão inicial é: 5274</p>
             <input type="password" id="old-pwd-input" placeholder="Senha Atual">
             <input type="password" id="new-pwd-input" placeholder="Nova Senha" style="margin-top:10px;">
-            <div id="change-pwd-error" style="color:#ff5252; font-size:12px; margin-top:5px; display:none;">Senha incorreta ou nova senha curta.</div>
+            <div id="change-pwd-error" style="color:#ff5252; font-size:12px; margin-top:5px; display:none;">Erro ao trocar a senha.</div>
             <div id="change-pwd-success" style="color:#4caf50; font-size:13px; font-weight:bold; margin-top:5px; display:none;">Senha alterada com sucesso!</div>
             <div style="display:flex; justify-content: center; gap:10px; margin-top:15px;">
                 <button class="btn-acao" onclick="fecharModalTrocarSenha()">Cancelar</button>
@@ -257,6 +254,19 @@
         let infoVideoAtual = null; let serieDadosCompletos = null; 
         let meusFavoritos = { live: [], vod: [], series: [] };
         const imgFallback = 'icon.ico';
+
+        // --- FETCH COM PROXY FALLBACK MANTIDO PARA GARANTIR O LOGIN ---
+        async function fetchApi(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error();
+                return await response.json();
+            } catch (error) {
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                const proxyResponse = await fetch(proxyUrl);
+                return await proxyResponse.json();
+            }
+        }
 
         window.onload = () => {
             const dadosSalvos = localStorage.getItem('iptv_dados');
@@ -311,7 +321,7 @@
             setTimeout(() => { fecharModalTrocarSenha(); }, 1500);
         }
 
-        // --- LOGIN DIRETO E RÁPIDO (SEM PROXY) ---
+        // --- LOGIN COM PROXY DE VOLTA ---
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault(); 
             const btnEntrar = document.getElementById('btnEntrar');
@@ -321,6 +331,7 @@
             credenciais.profile = document.getElementById('profileName').value.trim();
             let urlLimpa = document.getElementById('serverUrl').value.trim().replace(/\/+$/, "");
             if (urlLimpa !== "" && !urlLimpa.startsWith('http')) urlLimpa = 'http://' + urlLimpa;
+            
             credenciais.url = urlLimpa;
             credenciais.user = document.getElementById('username').value.trim();
             credenciais.pass = document.getElementById('password').value.trim();
@@ -330,15 +341,13 @@
 
             try {
                 const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}`;
-                // Fetch direto e simples (Sem proxy que quebra)
-                const res = await fetch(url);
-                const data = await res.json();
+                // USANDO A FUNÇÃO COM PROXY PARA EVITAR O BLOQUEIO NA TELA VERMELHA
+                const data = await fetchApi(url);
                 
                 if (data.user_info && data.user_info.auth === 1) {
                     if (lembrar) localStorage.setItem('iptv_dados', JSON.stringify(credenciais));
                     else localStorage.removeItem('iptv_dados');
 
-                    // Validade
                     if (data.user_info.exp_date && data.user_info.exp_date !== "null") {
                         const timestamp = parseInt(data.user_info.exp_date);
                         if (!isNaN(timestamp)) {
@@ -363,27 +372,30 @@
                     document.getElementById('login-section').style.display = 'none'; 
                     document.getElementById('dashboard-section').style.display = 'flex';
                     
-                    carregarCategorias('get_live_categories', 'TV Ao Vivo', document.querySelector('.nav-btn.active'), 'live');
-                } else { throw new Error("Usuário/Senha incorretos."); }
+                    if(document.getElementById('grid-conteudo').innerHTML === '') {
+                        carregarCategorias('get_live_categories', 'TV Ao Vivo', document.querySelector('.nav-btn.active'), 'live');
+                    }
+                } else { throw new Error("Usuário ou Senha incorretos."); }
             } catch (e) {
                 mensagem.className = 'erro'; 
-                mensagem.innerText = "Erro ao conectar. Verifique seus dados ou o bloqueio de rede.";
+                mensagem.innerText = "Erro ao conectar. Verifique os dados ou a rede.";
             } finally { btnEntrar.disabled = false; }
         });
 
         function fazerLogout() { 
             fecharPlayer(); fecharDetalhes(); 
             localStorage.removeItem('iptv_dados');
+            document.getElementById('lembrarSenha').checked = false;
             document.getElementById('dashboard-section').style.display = 'none'; 
             document.getElementById('login-section').style.display = 'flex'; 
         }
 
-        // --- FUNÇÕES DE INTERFACE ---
         function getSafeImage(imgUrl) {
             if (!imgUrl || imgUrl.trim() === '' || imgUrl.includes('ui-avatars.com')) return imgFallback;
             return imgUrl;
         }
 
+        // --- CARREGAMENTO API ---
         async function carregarCategorias(acaoApi, tituloTela, botaoClicado, tipo) {
             fecharDetalhes(); document.querySelectorAll('.nav-btn:not(.btn-sair)').forEach(btn => btn.classList.remove('active')); if(botaoClicado) botaoClicado.classList.add('active');
             tipoAtual = tipo; modoAtual = 'categorias'; document.getElementById('btn-voltar').style.display = 'none'; document.getElementById('titulo-sessao').innerText = `Categorias - ${tituloTela}`;
@@ -392,18 +404,17 @@
 
             try {
                 const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=${acaoApi}`;
-                const res = await fetch(url);
-                const categorias = await res.json(); 
+                const categorias = await fetchApi(url); 
                 grid.innerHTML = '';
                 
                 categorias.forEach(cat => {
                     const card = document.createElement('div'); card.className = 'card-item';
                     let imgUrl = getSafeImage(cat.category_icon);
                     card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';"><div class="card-title">${cat.category_name}</div>`;
-                    card.onclick = () => interceptarCarregarConteudo(cat.category_id, cat.category_name);
+                    card.onclick = () => carregarConteudoDaCategoria(cat.category_id, cat.category_name);
                     grid.appendChild(card);
                 });
-            } catch (e) { grid.innerHTML = '<div style="color:red; text-align:center;">Erro de conexão direta. Ative sua extensão CORS ou acesse por HTTP.</div>'; }
+            } catch (e) { grid.innerHTML = '<div style="color:red; text-align:center;">Erro ao carregar as pastas.</div>'; }
         }
 
         async function carregarConteudoDaCategoria(categoryId, categoryName) {
@@ -414,8 +425,7 @@
             
             try {
                 const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=${acaoApi}`;
-                const res = await fetch(url);
-                const itens = await res.json();
+                const itens = await fetchApi(url);
                 grid.innerHTML = '';
                 if (itens.length === 0) { grid.innerHTML = '<div style="color:#fff;">Nenhum conteúdo.</div>'; return; }
                 
@@ -424,48 +434,13 @@
                     const nomeItem = item.name || item.title;
                     const imgUrl = getSafeImage(item.stream_icon || item.cover);
                     card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';"><div class="card-title">${nomeItem}</div>`;
-                    card.onclick = () => interceptarAbrirDetalhes(item, nomeItem);
+                    card.onclick = () => abrirDetalhes(item, nomeItem);
                     grid.appendChild(card);
                 });
             } catch (e) { grid.innerHTML = '<div style="color:red;">Erro ao carregar os itens.</div>'; }
         }
 
-        // --- PESQUISA ---
-        let timeoutPesquisa = null;
-        function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
-        async function realizarPesquisa() {
-            const termo = document.getElementById('searchInput').value.trim().toLowerCase();
-            const grid = document.getElementById('grid-conteudo');
-            if (termo === '') { 
-                if (modoAtual === 'pesquisa') document.querySelector('.nav-btn.active').click(); 
-                else document.querySelectorAll('.card-item').forEach(c => c.style.display = 'flex');
-                return; 
-            }
-            if (modoAtual === 'streams' || modoAtual === 'favoritos') { 
-                document.querySelectorAll('.card-item').forEach(c => { 
-                    c.style.display = c.innerText.toLowerCase().includes(termo) ? 'flex' : 'none'; 
-                }); 
-                return; 
-            }
-            
-            fecharDetalhes(); 
-            document.getElementById('titulo-sessao').innerText = `Procurando "${termo}"...`; 
-            document.getElementById('btn-voltar').style.display = 'block';
-            grid.innerHTML = '<div style="color:#fff; text-align:center; width:100%;">Buscando no catálogo completo...</div>';
-            
-            let acaoApi = tipoAtual === 'live' ? 'get_live_streams' : tipoAtual === 'vod' ? 'get_vod_streams' : 'get_series';
-            try {
-                const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=${acaoApi}`;
-                const res = await fetch(url);
-                const todos = await res.json();
-                const resultados = todos.filter(item => (item.name || item.title || '').toLowerCase().includes(termo));
-                document.getElementById('titulo-sessao').innerText = `Resultados (${resultados.length})`; 
-                renderizarItens(resultados, grid); 
-                modoAtual = 'pesquisa';
-            } catch (e) { grid.innerHTML = '<div style="color:red;">Erro na pesquisa global.</div>'; }
-        }
-
-        // --- DETALHES ---
+        // --- DETALHES E PESQUISA ---
         function fecharDetalhes() { document.getElementById('details-screen').style.display = 'none'; }
         
         async function abrirDetalhes(item, nome) {
@@ -488,8 +463,7 @@
             
             if (tipoAtual === 'vod') {
                 try {
-                    const res = await fetch(`${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=get_vod_info&vod_id=${id}`);
-                    const data = await res.json();
+                    const data = await fetchApi(`${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=get_vod_info&vod_id=${id}`);
                     document.getElementById('details-plot').innerText = data.info.plot || 'Sem sinopse disponível.';
                 } catch(e) { document.getElementById('details-plot').innerText = 'Sem sinopse disponível.'; }
             } else if (tipoAtual === 'series') { renderizarTemporadasSérie(id, nome); }
@@ -501,8 +475,7 @@
             const gridExtra = document.getElementById('details-extra-grid'); gridExtra.innerHTML = '<div style="color:white;">Carregando temporadas...</div>';
             try {
                 if(!serieDadosCompletos || serieDadosCompletos.info.name !== nomeSerie) {
-                    const res = await fetch(`${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=get_series_info&series_id=${id}`);
-                    serieDadosCompletos = await res.json();
+                    serieDadosCompletos = await fetchApi(`${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=get_series_info&series_id=${id}`);
                 }
                 document.getElementById('details-plot').innerText = serieDadosCompletos.info.plot || 'Sem sinopse.';
                 gridExtra.innerHTML = '';
@@ -533,6 +506,37 @@
         function voltarParaTemporadas() { renderizarTemporadasSérie(infoVideoAtual.id, infoVideoAtual.nome); }
         function voltarParaCategorias() { document.querySelector('.nav-btn.active').click(); }
 
+        let timeoutPesquisa = null;
+        function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
+        async function realizarPesquisa() {
+            const termo = document.getElementById('searchInput').value.trim().toLowerCase();
+            const grid = document.getElementById('grid-conteudo');
+            if (termo === '') { 
+                if (modoAtual === 'pesquisa') document.querySelector('.nav-btn.active').click(); 
+                else document.querySelectorAll('.card-item').forEach(c => c.style.display = 'flex');
+                return; 
+            }
+            if (modoAtual === 'streams' || modoAtual === 'favoritos') { 
+                document.querySelectorAll('.card-item').forEach(c => { 
+                    c.style.display = c.innerText.toLowerCase().includes(termo) ? 'flex' : 'none'; 
+                }); 
+                return; 
+            }
+            fecharDetalhes(); 
+            document.getElementById('titulo-sessao').innerText = `Procurando "${termo}"...`; 
+            document.getElementById('btn-voltar').style.display = 'block';
+            grid.innerHTML = '<div style="color:#fff; text-align:center; width:100%;">Buscando no catálogo...</div>';
+            let acaoApi = tipoAtual === 'live' ? 'get_live_streams' : tipoAtual === 'vod' ? 'get_vod_streams' : 'get_series';
+            try {
+                const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=${acaoApi}`;
+                const todos = await fetchApi(url);
+                const resultados = todos.filter(item => (item.name || item.title || '').toLowerCase().includes(termo));
+                document.getElementById('titulo-sessao').innerText = `Resultados (${resultados.length})`; 
+                renderizarItens(resultados, grid); 
+                modoAtual = 'pesquisa';
+            } catch (e) { grid.innerHTML = '<div style="color:red;">Erro na pesquisa global.</div>'; }
+        }
+
         function alternarFavoritoDetalhes() {
             let isFav = meusFavoritos[infoVideoAtual.tipo]?.some(i => i.id_real == infoVideoAtual.id);
             if (isFav) meusFavoritos[infoVideoAtual.tipo] = meusFavoritos[infoVideoAtual.tipo].filter(i => i.id_real != infoVideoAtual.id);
@@ -548,7 +552,6 @@
             modoAtual = 'favoritos'; document.getElementById('btn-voltar').style.display = 'none';
             document.getElementById('titulo-sessao').innerText = `Meus Favoritos ⭐`;
             const grid = document.getElementById('grid-conteudo'); grid.innerHTML = '';
-
             if(meusFavoritos.live.length > 0) { grid.innerHTML += `<div style="grid-column: 1 / -1; font-size: 18px; color: #fff; margin-top: 10px;">Canais de TV</div>`; meusFavoritos.live.forEach(i => criarCardFavorito(i, grid)); }
             if(meusFavoritos.vod.length > 0) { grid.innerHTML += `<div style="grid-column: 1 / -1; font-size: 18px; color: #fff; margin-top: 20px;">Filmes</div>`; meusFavoritos.vod.forEach(i => criarCardFavorito(i, grid)); }
             if(meusFavoritos.series.length > 0) { grid.innerHTML += `<div style="grid-column: 1 / -1; font-size: 18px; color: #fff; margin-top: 20px;">Séries</div>`; meusFavoritos.series.forEach(i => criarCardFavorito(i, grid)); }
@@ -562,10 +565,17 @@
             grid.appendChild(card);
         }
 
-        // --- PLAYER DE VÍDEO NATIVO ---
+        // --- VÍDEO ---
         const player = document.getElementById('player');
         
         player.onerror = () => { document.getElementById('video-error').style.display = 'block'; };
+
+        player.ontimeupdate = () => {
+            if (tipoAtual !== 'live' && player.currentTime > 5 && player.duration > 0) {
+                if (player.currentTime < player.duration - 15) localStorage.setItem('iptv_time_' + videoIdAtual, player.currentTime);
+                else localStorage.removeItem('iptv_time_' + videoIdAtual);
+            }
+        };
 
         function forcarAbaExterna() { window.open(urlVideoAtual, '_blank'); }
         function baixarVideo() { window.open(urlVideoAtual, '_blank'); }
@@ -573,23 +583,43 @@
         function prepararVideo(id, ext, nome) {
             videoIdAtual = id; nomeVideoAtual = nome;
             if(tipoAtual === 'live') urlVideoAtual = `${credenciais.url}/live/${credenciais.user}/${credenciais.pass}/${id}.m3u8`;
+            else if(tipoAtual === 'series') urlVideoAtual = `${credenciais.url}/series/${credenciais.user}/${credenciais.pass}/${id}.${ext || 'mp4'}`;
             else urlVideoAtual = `${credenciais.url}/movie/${credenciais.user}/${credenciais.pass}/${id}.${ext || 'mp4'}`;
+            
+            if (tipoAtual !== 'live') {
+                let savedTime = localStorage.getItem('iptv_time_' + videoIdAtual);
+                if (savedTime && parseFloat(savedTime) > 5) {
+                    let st = parseFloat(savedTime);
+                    let min = Math.floor(st / 60); let sec = Math.floor(st % 60);
+                    document.getElementById('resume-time').innerText = `${min < 10 ? '0'+min : min}:${sec < 10 ? '0'+sec : sec}`;
+                    document.getElementById('resume-modal').style.display = 'flex';
+                    
+                    document.getElementById('btn-resume-continue').onclick = () => {
+                        document.getElementById('resume-modal').style.display = 'none';
+                        iniciarVideoHLS(st);
+                    };
+                    return;
+                }
+            }
             iniciarVideoHLS(0);
         }
 
         function iniciarVideoHLS(startTime) {
+            document.getElementById('resume-modal').style.display = 'none';
             document.getElementById('video-modal').style.display = 'flex';
             document.getElementById('video-title').innerText = nomeVideoAtual;
             document.getElementById('video-error').style.display = 'none';
+            
             document.getElementById('btn-download').style.display = (tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) ? 'none' : 'flex';
 
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
 
             if (player.canPlayType('application/vnd.apple.mpegurl') || !urlVideoAtual.includes('.m3u8')) {
                 player.src = urlVideoAtual;
-                player.play().catch(e => {
-                    document.getElementById('video-error').style.display = 'block';
-                });
+                player.onloadedmetadata = () => { 
+                    if(startTime > 0) player.currentTime = startTime; 
+                    player.play().catch(e => { document.getElementById('video-error').style.display = 'block'; }); 
+                };
             } else if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
                 hlsInfo = new Hls(); 
                 hlsInfo.on(Hls.Events.ERROR, function (event, data) {
@@ -597,7 +627,10 @@
                 });
                 hlsInfo.loadSource(urlVideoAtual); 
                 hlsInfo.attachMedia(player);
-                hlsInfo.on(Hls.Events.MANIFEST_PARSED, () => player.play().catch(e=>console.log(e)));
+                hlsInfo.on(Hls.Events.MANIFEST_PARSED, () => {
+                    if(startTime > 0) player.currentTime = startTime;
+                    player.play().catch(e => console.log(e));
+                });
             }
         }
 
