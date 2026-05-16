@@ -109,23 +109,40 @@
         .btn-close-details:hover { color: #ff5252; background: rgba(0,0,0,0.8); }
         .details-extra-content { padding: 20px; z-index: 2; position: relative; }
         
-        /* --- PLAYER NATIVO SIMPLIFICADO COM BOTÕES EXTRAS --- */
-        #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0d0d0d; z-index: 1000; flex-direction: column; }
+        /* --- PLAYER YT CONTROLES (ESTILO NETFLIX) --- */
+        #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
+        .video-wrapper { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #000; overflow: hidden; }
+        video { width: 100%; height: 100%; outline: none; }
+
+        .video-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); z-index: 1001; opacity: 0; transition: opacity 0.3s; pointer-events: none;}
+        .video-wrapper.show-controls .video-header { opacity: 1; pointer-events: auto; }
+        .video-title { font-size: 20px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 3px #000; }
+        .btn-fechar-video { background-color: rgba(20,20,20,0.8); color: white; border: 1px solid #444; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        .btn-fechar-video:hover { background-color: #ff5252; border-color: #ff5252; }
+
+        .yt-controls { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 0 20px 15px 20px; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.3s; z-index: 1002; pointer-events: none; }
+        .video-wrapper.show-controls .yt-controls { opacity: 1; pointer-events: auto; }
+
+        .yt-progress-container { width: 100%; height: 5px; background: rgba(255,255,255,0.2); cursor: pointer; position: relative; margin-bottom: 12px; transition: height 0.1s; border-radius: 2px;}
+        .yt-progress-container:hover { height: 8px; }
+        .yt-progress-filled { height: 100%; background: #ff0000; width: 0%; position: relative; border-radius: 2px; }
+        .yt-progress-filled::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: #ff0000; border-radius: 50%; opacity: 0; transition: opacity 0.1s; }
+        .yt-progress-container:hover .yt-progress-filled::after { opacity: 1; }
+
+        .yt-bottom-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
+        .yt-left, .yt-right { display: flex; align-items: center; gap: 15px; }
         
-        .video-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #111; border-bottom: 1px solid #333; }
-        .video-title { font-size: 18px; font-weight: bold; color: #ffffff; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 15px; }
-        .btn-fechar-video { background-color: #ff5252; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
-        .btn-fechar-video:hover { background-color: #ff0000; }
-        
-        .video-container { flex: 1; display: flex; justify-content: center; align-items: center; background: #000; position: relative; width: 100%; }
-        /* Usando a tag video nativa padrão, que inclui play, pause, volume, tela cheia */
-        video { width: 100%; height: 100%; outline: none; max-height: calc(100vh - 140px); background: #000;}
-        
-        .custom-bottom-bar { background: #111; padding: 15px 20px; display: flex; justify-content: center; gap: 15px; border-top: 1px solid #333; flex-wrap: wrap; }
-        .action-btn { background: #222; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s;}
-        .action-btn:hover { background: #fff; color: #000; }
-        
-        /* Modais */
+        .yt-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: 0.2s; outline: none;}
+        .yt-btn:hover { transform: scale(1.1); color: #ff0000; }
+        .yt-time { font-size: 14px; color: #ddd; margin-left: 10px; font-weight: 500;}
+
+        input[type=range] { -webkit-appearance: none; background: rgba(255,255,255,0.3); height: 4px; border-radius: 2px; outline: none; width: 70px; cursor: pointer; transition: 0.2s;}
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+        input[type=range]:hover { background: rgba(255,255,255,0.6); }
+
+        #hls-error-msg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: #ff5252; padding: 20px; border-radius: 8px; z-index: 1001; display: none; font-size: 16px; text-align: center; border: 1px solid #ff5252;}
+
+        /* --- MODAIS --- */
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px;}
         .modal-content { background: #1a1a1a; padding: 30px; border-radius: 10px; border: 1px solid #444; width: 100%; max-width: 350px; text-align: center; }
         .modal-content h3 { margin-bottom: 10px; color: #fff; }
@@ -212,20 +229,49 @@
     </div>
 
     <div id="video-modal">
-        <div class="video-header">
-            <div class="video-title" id="video-title">Vídeo</div>
-            <button class="btn-fechar-video" onclick="fecharPlayer()">✕ Fechar Player</button>
-        </div>
+        <div class="video-wrapper" id="video-wrapper">
+            
+            <div class="video-header" id="video-header">
+                <div class="video-title" id="video-title">Vídeo</div>
+                <button class="btn-fechar-video" onclick="fecharPlayer()">✕ Fechar Player</button>
+            </div>
 
-        <div class="video-container">
-            <video id="player" controls autoplay playsinline></video>
-        </div>
+            <div id="hls-error-msg">
+                <strong>Bloqueio de CORS/Rede detectado. 🔒</strong><br>
+                Ative a extensão CORS ou execute o arquivo localmente.
+            </div>
 
-        <div class="custom-bottom-bar">
-            <button class="action-btn" onclick="player.currentTime -= 10">⏪ Voltar 10s</button>
-            <button class="action-btn" onclick="player.currentTime += 10">⏩ Avançar 10s</button>
-            <button class="action-btn" id="btn-download" onclick="baixarVideo()">📥 Baixar Vídeo</button>
-            <button class="action-btn" onclick="abrirMenuCast()">📺 Chromecast</button>
+            <video id="player" playsinline></video>
+            
+            <div class="yt-controls" id="yt-controls">
+                <div class="yt-progress-container" id="yt-progress-container">
+                    <div class="yt-progress-filled" id="yt-progress"></div>
+                </div>
+                
+                <div class="yt-bottom-row">
+                    <div class="yt-left">
+                        <button class="yt-btn" id="yt-rewind-btn" title="Voltar 10s">⏪</button>
+                        <button class="yt-btn" id="yt-play-btn" title="Play/Pause">⏸</button>
+                        <button class="yt-btn" id="yt-forward-btn" title="Avançar 10s">⏩</button>
+                        
+                        <div style="display:flex; align-items:center; gap:5px; margin-left:5px;">
+                            <button class="yt-btn" id="yt-mute-btn" title="Mutar/Desmutar" style="font-size: 18px;">🔊</button>
+                            <input type="range" id="yt-vol-slider" min="0" max="1" step="0.1" value="1">
+                        </div>
+
+                        <span class="yt-time" id="yt-time">00:00 / 00:00</span>
+                    </div>
+                    
+                    <div class="yt-right">
+                        <button class="yt-btn" id="yt-download-btn" title="Baixar Vídeo Offline">📥</button>
+                        <button class="yt-btn" onclick="abrirMenuCast()" title="Transmitir para TV">
+                            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm18-7H5v1.63c3.96 1.28 7.09 4.41 8.37 8.37H19V7zM1 10v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="currentColor"/></svg>
+                        </button>
+                        <button class="yt-btn" id="yt-fullscreen-btn" title="Tela Cheia">⛶</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -276,10 +322,9 @@
         let urlVideoAtual = ''; let nomeVideoAtual = ''; let videoIdAtual = '';
         let infoVideoAtual = null; let serieDadosCompletos = null; 
         let meusFavoritos = { live: [], vod: [], series: [] };
-        
-        // Esta é a imagem que salva o visual se o link do painel estiver quebrado
         const imgFallback = 'icon.ico';
 
+        // --- SISTEMA AUTO LOGIN NO REFRESH (F5) ---
         window.onload = () => {
             const dadosSalvos = localStorage.getItem('iptv_dados');
             if (dadosSalvos) {
@@ -289,13 +334,18 @@
                 document.getElementById('username').value = dados.user || '';
                 document.getElementById('password').value = dados.pass || '';
                 document.getElementById('lembrarSenha').checked = true;
+                
+                // Dispara o login automático estruturado após carregar o DOM
+                setTimeout(() => {
+                    document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+                }, 500);
             }
             if (localStorage.getItem('iptv_favoritos')) meusFavoritos = JSON.parse(localStorage.getItem('iptv_favoritos'));
         };
         
         function salvarFavoritos() { localStorage.setItem('iptv_favoritos', JSON.stringify(meusFavoritos)); }
 
-        // --- SISTEMA CONTROLE PARENTAL ---
+        // --- CONTROLE PARENTAL ---
         function getSenhaAdulto() { return localStorage.getItem('iptv_adult_pwd') || '5274'; }
         let callbackSenhaAdulto = null;
         function isAdultContent(name) {
@@ -361,24 +411,34 @@
                     document.getElementById('display-profile').style.display = 'inline-block';
                     document.getElementById('login-section').style.display = 'none'; 
                     document.getElementById('dashboard-section').style.display = 'flex';
-                    carregarCategorias('get_live_categories', 'TV Ao Vivo', document.querySelector('.nav-btn.active'), 'live');
+                    
+                    if(document.getElementById('grid-conteudo').innerHTML === '') {
+                        carregarCategorias('get_live_categories', 'TV Ao Vivo', document.querySelector('.nav-btn.active'), 'live');
+                    }
                 } else { throw new Error("Usuário ou Senha incorretos."); }
             } catch (e) {
                 mensagem.className = 'erro'; 
-                mensagem.innerText = "Erro de conexão. Navegador está bloqueando ou os dados estão errados.";
+                mensagem.innerText = "Erro de conexão. Ative a extensão de CORS ou altere as permissões de Mixed Content do seu navegador.";
             } finally { btnEntrar.disabled = false; }
         });
 
         function fazerLogout() { 
             fecharPlayer(); fecharDetalhes(); 
+            localStorage.removeItem('iptv_dados');
             document.getElementById('dashboard-section').style.display = 'none'; 
             document.getElementById('login-section').style.display = 'flex'; 
         }
 
-        // --- FUNÇÕES DE SEGURANÇA PARA IMAGENS ---
-        function getSafeImage(imgUrl) {
-            if (!imgUrl || imgUrl.trim() === '') return imgFallback;
+        // --- SISTEMA DE CAPAS E FALLBACK SEGURO ---
+        function getSafeImage(imgUrl, title) {
+            let safeTitle = encodeURIComponent((title || 'IPTV').substring(0, 20));
+            let fallbackUrl = `https://ui-avatars.com/api/?name=${safeTitle}&background=222&color=fff&size=200`;
+            if (!imgUrl || imgUrl.trim() === '' || imgUrl.includes('ui-avatars.com')) return fallbackUrl;
             return imgUrl;
+        }
+        function getErrorString(title) {
+            let safeTitle = encodeURIComponent((title || 'IPTV').substring(0, 20));
+            return `this.onerror=null; this.src='https://ui-avatars.com/api/?name=${safeTitle}&background=222&color=fff&size=200';`;
         }
 
         // --- CARREGAMENTO API ---
@@ -394,11 +454,11 @@
                 
                 categorias.forEach(cat => {
                     const card = document.createElement('div'); card.className = 'card-item';
-                    
-                    // Pega a imagem da API, se for vazia usa o fallback
-                    let imgUrl = getSafeImage(cat.category_icon);
-                    // Se o link vier quebrado, o onerror troca para o icon.ico
-                    let icone = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';">`;
+                    let imgUrl = getSafeImage(cat.category_icon, cat.category_name);
+                    let emoji = obterEmojiCategoria(cat.category_name);
+                    let icone = emoji 
+                        ? `<div class="folder-icon" style="font-size: 55px;">${emoji}</div>` 
+                        : `<img src="${imgUrl}" class="card-img" onerror="${getErrorString(cat.category_name)}">`;
                     
                     card.innerHTML = `${icone}<div class="card-title">${cat.category_name}</div>`;
                     card.onclick = () => interceptarCarregarConteudo(cat.category_id, cat.category_name);
@@ -424,9 +484,9 @@
             itens.forEach(item => {
                 const card = document.createElement('div'); card.className = 'card-item';
                 const nomeItem = item.name || item.title;
-                const imgUrl = getSafeImage(item.stream_icon || item.cover);
+                const imgUrl = getSafeImage(item.stream_icon || item.cover, nomeItem);
                 
-                card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';"><div class="card-title">${nomeItem}</div>`;
+                card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="${getErrorString(nomeItem)}"><div class="card-title">${nomeItem}</div>`;
                 card.onclick = () => interceptarAbrirDetalhes(item, nomeItem);
                 grid.appendChild(card);
             });
@@ -439,7 +499,7 @@
             document.getElementById('details-screen').style.display = 'flex'; document.getElementById('details-screen').scrollTop = 0; 
             const id = item.stream_id || item.series_id || item.id_real || item.id;
             const extensao = item.container_extension || item.extensao || 'mp4';
-            let capa = getSafeImage(item.stream_icon || item.cover || item.capa);
+            let capa = getSafeImage(item.stream_icon || item.cover || item.capa, nome);
             
             infoVideoAtual = { id, nome, tipo: tipoAtual, capa, extensao };
             
@@ -500,9 +560,9 @@
                 card.className = 'card-episode'; 
                 const title = `E${ep.episode_num} - ${ep.title}`;
                 
-                let thumbUrl = getSafeImage(ep.info?.movie_image || ep.info?.cover || ep.info?.backdrop_path || infoVideoAtual.capa);
+                let thumbUrl = getSafeImage(ep.info?.movie_image || ep.info?.cover || ep.info?.backdrop_path || infoVideoAtual.capa, title);
 
-                card.innerHTML = `<img src="${thumbUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}'"><div class="card-title">${title}</div>`;
+                card.innerHTML = `<img src="${thumbUrl}" class="card-img" onerror="${getErrorString(title)}"><div class="card-title">${title}</div>`;
                 card.onclick = () => prepararVideo(ep.id, ep.container_extension || 'mp4', `${nomeSerie} - ${title}`);
                 gridExtra.appendChild(card);
             });
@@ -531,25 +591,58 @@
         }
         function criarCardFavorito(item, grid) {
             const card = document.createElement('div'); card.className = 'card-item';
-            const imgUrl = getSafeImage(item.stream_icon);
-            const imgTag = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';">`;
-            card.innerHTML = `${imgTag}<div class="card-title">${item.nome}</div>`;
+            const imgUrl = getSafeImage(item.stream_icon, item.nome);
+            card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="${getErrorString(item.nome)}"><div class="card-title">${item.nome}</div>`;
             card.onclick = () => interceptarAbrirDetalhes(item, item.nome);
             grid.appendChild(card);
         }
 
-        // --- PLAYER NATIVO DA WEB (CONTROLES EMBUTIDOS) ---
+        // --- PLAYER DE VÍDEO CUSTOMIZADO (YOUTUBE STYLE COMPATÍVEL COM CELULAR) ---
         const player = document.getElementById('player');
+        const videoWrapper = document.getElementById('video-wrapper');
+        const playBtn = document.getElementById('yt-play-btn');
+        const progressBar = document.getElementById('yt-progress');
+        const progressContainer = document.getElementById('yt-progress-container');
+        const timeDisplay = document.getElementById('yt-time');
+        const muteBtn = document.getElementById('yt-mute-btn');
+        const volSlider = document.getElementById('yt-vol-slider');
         
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return "00:00";
-            let min = Math.floor(seconds / 60);
-            let sec = Math.floor(seconds % 60);
-            return `${min < 10 ? '0'+min : min}:${sec < 10 ? '0'+sec : sec}`;
-        }
+        let hideControlsTimeout;
+
+        document.getElementById('yt-rewind-btn').onclick = () => { player.currentTime = Math.max(0, player.currentTime - 10); };
+        document.getElementById('yt-forward-btn').onclick = () => { player.currentTime = Math.min(player.duration, player.currentTime + 10); };
+        
+        muteBtn.onclick = () => {
+            player.muted = !player.muted;
+            volSlider.value = player.muted ? 0 : player.volume;
+            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
+        };
+        
+        volSlider.oninput = (e) => {
+            player.volume = e.target.value;
+            player.muted = player.volume == 0;
+            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
+        };
+
+        document.getElementById('yt-download-btn').onclick = () => {
+            alert("O vídeo abrirá em uma nova aba.\n\nPara fazer o download, clique nos 3 pontinhos do player do Chrome ou segure pressionado e selecione 'Fazer o download'.");
+            window.open(urlVideoAtual, '_blank');
+        };
+
+        playBtn.onclick = () => { if(player.paused) player.play(); else player.pause(); };
+        player.onplay = () => playBtn.innerHTML = '⏸';
+        player.onpause = () => playBtn.innerHTML = '▶';
+
+        player.onerror = () => { document.getElementById('hls-error-msg').style.display = 'block'; };
 
         player.ontimeupdate = () => {
-            if (tipoAtual !== 'live' && player.currentTime > 5 && player.duration > 0) {
+            if(tipoAtual === 'live') return; 
+            if(!player.duration) return;
+            const percent = (player.currentTime / player.duration) * 100;
+            progressBar.style.width = percent + '%';
+            timeDisplay.innerText = `${formatTime(player.currentTime)} / ${formatTime(player.duration)}`;
+
+            if (player.currentTime > 5 && player.duration > 0) {
                 if (player.currentTime < player.duration - 15) {
                     localStorage.setItem('iptv_time_' + videoIdAtual, player.currentTime);
                 } else {
@@ -558,12 +651,27 @@
             }
         };
 
-        function baixarVideo() {
-            alert("O vídeo será aberto em uma nova guia para download.\n\nClique no ícone de 3 pontos no vídeo e escolha 'Fazer o download'.");
-            window.open(urlVideoAtual, '_blank');
-        }
+        progressContainer.onclick = (e) => {
+            if(tipoAtual === 'live') return;
+            const rect = progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            player.currentTime = pos * player.duration;
+        };
 
-        function abrirMenuCast() { alert("Transmitindo via Web:\n💻 PC (Chrome): Clique com o botão direito no vídeo e selecione 'Transmitir...'\n📱 iOS (Safari): Use o ícone nativo do AirPlay dentro do player."); }
+        document.getElementById('yt-fullscreen-btn').onclick = () => {
+            if (!document.fullscreenElement) { videoWrapper.requestFullscreen().catch(e=>console.log(e)); } 
+            else { document.exitFullscreen(); }
+        };
+
+        // Ativador de controles inteligente (Mouse + Mobile Touch)
+        const gerenciarControlesBarra = () => {
+            videoWrapper.classList.add('show-controls');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => { videoWrapper.classList.remove('show-controls'); }, 3000);
+        };
+        videoWrapper.addEventListener('mousemove', gerenciarControlesBarra);
+        videoWrapper.addEventListener('touchstart', gerenciarControlesBarra, {passive: true});
+        videoWrapper.addEventListener('click', gerenciarControlesBarra);
 
         function prepararVideo(id, ext, nome) {
             videoIdAtual = id;
@@ -597,33 +705,78 @@
             document.getElementById('resume-modal').style.display = 'none';
             document.getElementById('video-modal').style.display = 'flex';
             document.getElementById('video-title').innerText = nomeVideoAtual;
+            document.getElementById('hls-error-msg').style.display = 'none';
+            
+            document.getElementById('yt-download-btn').style.display = (tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) ? 'none' : 'inline-flex';
 
-            document.getElementById('btn-download').style.display = (tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) ? 'none' : 'flex';
+            if(tipoAtual === 'live') {
+                timeDisplay.innerText = '🔴 Ao Vivo';
+                progressContainer.style.display = 'none';
+            } else {
+                timeDisplay.innerText = 'Carregando...';
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+            }
 
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
 
-            const aplicarStartTime = () => {
+            // Mecanismo de Play Seguro Mobile (Evita travamento por bloqueio de som nativo do celular)
+            const executarPlaySeguro = () => {
                 if(startTime > 0) player.currentTime = startTime;
-                player.play().catch(e => console.log(e));
+                player.play().catch(error => {
+                    console.log("Autoplay bloqueado pelo celular. Forçando mudo para reproduzir.");
+                    player.muted = true;
+                    volSlider.value = 0;
+                    muteBtn.innerText = '🔇';
+                    player.play().catch(e => console.error("Falha ao rodar no celular:", e));
+                });
             };
 
-            if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
+            // BLINDAGEM NATIVA: Se for Safari/iOS, ignora o hls.js e usa o motor de vídeo nativo da Apple
+            if (player.canPlayType('application/vnd.apple.mpegurl') || !Hls.isSupported()) {
+                player.src = urlVideoAtual;
+                player.onloadedmetadata = executarPlaySeguro;
+            } else if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
                 hlsInfo = new Hls(); 
+                
+                // SISTEMA DE RECUPERAÇÃO AUTO-RECOVER DA TV AO VIVO
+                hlsInfo.on(Hls.Events.ERROR, function (event, data) {
+                    if (data.fatal) {
+                        switch (data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.log("Canal ao vivo caiu por erro de rede. Tentando reconectar...");
+                                hlsInfo.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.log("Canal ao vivo corrompeu mídia. Tentando reajustar...");
+                                hlsInfo.recoverMediaError();
+                                break;
+                            default:
+                                hlsInfo.destroy();
+                                document.getElementById('hls-error-msg').style.display = 'block';
+                                break;
+                        }
+                    }
+                });
+
                 hlsInfo.loadSource(urlVideoAtual); 
                 hlsInfo.attachMedia(player);
-                hlsInfo.on(Hls.Events.MANIFEST_PARSED, aplicarStartTime);
+                hlsInfo.on(Hls.Events.MANIFEST_PARSED, executarPlaySeguro);
             } else { 
                 player.src = urlVideoAtual; 
                 player.onloadedmetadata = () => { if(startTime > 0) player.currentTime = startTime; };
-                player.play().catch(e => console.log(e)); 
+                executarPlaySeguro(); 
             }
         }
 
         function fecharPlayer() {
             document.getElementById('video-modal').style.display = 'none';
+            if (document.fullscreenElement) document.exitFullscreen();
             player.pause(); player.src = '';
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
         }
+
+        function abrirMenuCast() { alert("Transmitindo via Web:\n\n💻 PC (Chrome): Clique com o botão direito no vídeo e selecione 'Transmitir...'\n\n📱 iOS (Safari): Use o ícone nativo do AirPlay."); }
 
         // --- LÓGICA DE PESQUISA ---
         function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
