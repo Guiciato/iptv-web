@@ -109,23 +109,40 @@
         .btn-close-details:hover { color: #ff5252; background: rgba(0,0,0,0.8); }
         .details-extra-content { padding: 20px; z-index: 2; position: relative; }
         
-        /* --- PLAYER NATIVO SIMPLIFICADO COM BOTÕES EXTRAS --- */
-        #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0d0d0d; z-index: 1000; flex-direction: column; }
+        /* --- PLAYER YOUTUBE STYLE REFORMULADO --- */
+        #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
+        .video-wrapper { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #000; overflow: hidden; }
+        video { width: 100%; height: 100%; outline: none; }
+
+        .video-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); z-index: 1001; opacity: 0; transition: opacity 0.3s; pointer-events: none;}
+        .video-wrapper.show-controls .video-header { opacity: 1; pointer-events: auto; }
+        .video-title { font-size: 20px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 3px #000; }
+        .btn-fechar-video { background-color: rgba(20,20,20,0.8); color: white; border: 1px solid #444; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        .btn-fechar-video:hover { background-color: #ff5252; border-color: #ff5252; }
+
+        .yt-controls { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 0 20px 15px 20px; display: flex; flex-direction: column; opacity: 0; transition: opacity 0.3s; z-index: 1002; }
+        .video-wrapper.show-controls .yt-controls { opacity: 1; }
+
+        .yt-progress-container { width: 100%; height: 5px; background: rgba(255,255,255,0.2); cursor: pointer; position: relative; margin-bottom: 12px; transition: height 0.1s; border-radius: 2px;}
+        .yt-progress-container:hover { height: 8px; }
+        .yt-progress-filled { height: 100%; background: #ff0000; width: 0%; position: relative; border-radius: 2px; }
+        .yt-progress-filled::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: #ff0000; border-radius: 50%; opacity: 0; transition: opacity 0.1s; }
+        .yt-progress-container:hover .yt-progress-filled::after { opacity: 1; }
+
+        .yt-bottom-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
+        .yt-left, .yt-right { display: flex; align-items: center; gap: 15px; }
         
-        .video-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #111; border-bottom: 1px solid #333; }
-        .video-title { font-size: 18px; font-weight: bold; color: #ffffff; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 15px; }
-        .btn-fechar-video { background-color: #ff5252; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
-        .btn-fechar-video:hover { background-color: #ff0000; }
-        
-        .video-container { flex: 1; display: flex; justify-content: center; align-items: center; background: #000; position: relative; width: 100%; }
-        /* Usando a tag video nativa padrão, que inclui play, pause, volume, tela cheia */
-        video { width: 100%; height: 100%; outline: none; max-height: calc(100vh - 140px); background: #000;}
-        
-        .custom-bottom-bar { background: #111; padding: 15px 20px; display: flex; justify-content: center; gap: 15px; border-top: 1px solid #333; flex-wrap: wrap; }
-        .action-btn { background: #222; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s;}
-        .action-btn:hover { background: #fff; color: #000; }
-        
-        /* Modais */
+        .yt-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: 0.2s; outline: none;}
+        .yt-btn:hover { transform: scale(1.1); color: #ff0000; }
+        .yt-time { font-size: 14px; color: #ddd; margin-left: 10px; font-weight: 500;}
+
+        input[type=range] { -webkit-appearance: none; background: rgba(255,255,255,0.3); height: 4px; border-radius: 2px; outline: none; width: 70px; cursor: pointer; transition: 0.2s;}
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+        input[type=range]:hover { background: rgba(255,255,255,0.6); }
+
+        #hls-error-msg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: #ff5252; padding: 20px; border-radius: 8px; z-index: 1001; display: none; font-size: 16px; text-align: center; border: 1px solid #ff5252;}
+
+        /* --- MODAIS --- */
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px;}
         .modal-content { background: #1a1a1a; padding: 30px; border-radius: 10px; border: 1px solid #444; width: 100%; max-width: 350px; text-align: center; }
         .modal-content h3 { margin-bottom: 10px; color: #fff; }
@@ -212,20 +229,49 @@
     </div>
 
     <div id="video-modal">
-        <div class="video-header">
-            <div class="video-title" id="video-title">Vídeo</div>
-            <button class="btn-fechar-video" onclick="fecharPlayer()">✕ Fechar Player</button>
-        </div>
+        <div class="video-wrapper" id="video-wrapper">
+            
+            <div class="video-header" id="video-header">
+                <div class="video-title" id="video-title">Vídeo</div>
+                <button class="btn-fechar-video" onclick="fecharPlayer()">✕ Fechar Player</button>
+            </div>
 
-        <div class="video-container">
-            <video id="player" controls autoplay playsinline></video>
-        </div>
+            <div id="hls-error-msg">
+                <strong>O Navegador Bloqueou a TV Ao Vivo 🔒</strong><br>
+                O servidor usa HTTP. Ative a extensão CORS ou use pelo celular!
+            </div>
 
-        <div class="custom-bottom-bar">
-            <button class="action-btn" onclick="player.currentTime -= 10">⏪ Voltar 10s</button>
-            <button class="action-btn" onclick="player.currentTime += 10">⏩ Avançar 10s</button>
-            <button class="action-btn" id="btn-download" onclick="baixarVideo()">📥 Baixar Vídeo</button>
-            <button class="action-btn" onclick="abrirMenuCast()">📺 Chromecast</button>
+            <video id="player" playsinline></video>
+            
+            <div class="yt-controls" id="yt-controls">
+                <div class="yt-progress-container" id="yt-progress-container">
+                    <div class="yt-progress-filled" id="yt-progress"></div>
+                </div>
+                
+                <div class="yt-bottom-row">
+                    <div class="yt-left">
+                        <button class="yt-btn" id="yt-rewind-btn" title="Voltar 10s">⏪</button>
+                        <button class="yt-btn" id="yt-play-btn" title="Play/Pause">▶</button>
+                        <button class="yt-btn" id="yt-forward-btn" title="Avançar 10s">⏩</button>
+                        
+                        <div style="display:flex; align-items:center; gap:5px; margin-left:5px;">
+                            <button class="yt-btn" id="yt-mute-btn" title="Mutar/Desmutar" style="font-size: 18px;">🔊</button>
+                            <input type="range" id="yt-vol-slider" min="0" max="1" step="0.1" value="1">
+                        </div>
+
+                        <span class="yt-time" id="yt-time">00:00 / 00:00</span>
+                    </div>
+                    
+                    <div class="yt-right">
+                        <button class="yt-btn" id="yt-download-btn" title="Baixar Vídeo Offline">📥</button>
+                        <button class="yt-btn" onclick="abrirMenuCast()" title="Transmitir para TV">
+                            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm18-7H5v1.63c3.96 1.28 7.09 4.41 8.37 8.37H19V7zM1 10v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="currentColor"/></svg>
+                        </button>
+                        <button class="yt-btn" id="yt-fullscreen-btn" title="Tela Cheia">⛶</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -276,10 +322,9 @@
         let urlVideoAtual = ''; let nomeVideoAtual = ''; let videoIdAtual = '';
         let infoVideoAtual = null; let serieDadosCompletos = null; 
         let meusFavoritos = { live: [], vod: [], series: [] };
-        
-        // Esta é a imagem que salva o visual se o link do painel estiver quebrado
         const imgFallback = 'icon.ico';
 
+        // --- SISTEMA DE F5 INVISÍVEL (AUTO-LOGIN) ---
         window.onload = () => {
             const dadosSalvos = localStorage.getItem('iptv_dados');
             if (dadosSalvos) {
@@ -289,6 +334,11 @@
                 document.getElementById('username').value = dados.user || '';
                 document.getElementById('password').value = dados.pass || '';
                 document.getElementById('lembrarSenha').checked = true;
+
+                // Se o usuário não clicou no botão Sair, faz auto-login!
+                if (!sessionStorage.getItem('logged_out')) {
+                    setTimeout(() => { document.getElementById('btnEntrar').click(); }, 300);
+                }
             }
             if (localStorage.getItem('iptv_favoritos')) meusFavoritos = JSON.parse(localStorage.getItem('iptv_favoritos'));
         };
@@ -357,6 +407,32 @@
                     if (lembrar) localStorage.setItem('iptv_dados', JSON.stringify(credenciais));
                     else localStorage.removeItem('iptv_dados');
 
+                    sessionStorage.removeItem('logged_out'); // Reseta a flag para o F5 funcionar de novo
+
+                    if (data.user_info.exp_date && data.user_info.exp_date !== "null") {
+                        const timestamp = parseInt(data.user_info.exp_date);
+                        if (!isNaN(timestamp)) {
+                            const dataExp = new Date(timestamp * 1000);
+                            const hoje = new Date();
+                            const diasRestantes = Math.ceil((dataExp - hoje) / (1000 * 60 * 60 * 24));
+                            const dia = String(dataExp.getDate()).padStart(2, '0');
+                            const mes = String(dataExp.getMonth() + 1).padStart(2, '0');
+                            const ano = dataExp.getFullYear();
+                            
+                            const badgeExp = document.getElementById('display-expire');
+                            badgeExp.innerHTML = `🔋 Expira: ${dia}/${mes}/${ano}`;
+                            
+                            if (diasRestantes <= 7) { 
+                                badgeExp.className = 'expire-badge danger'; 
+                            } else if (diasRestantes <= 15) { 
+                                badgeExp.className = 'expire-badge warning'; 
+                            } else { 
+                                badgeExp.className = 'expire-badge'; 
+                            }
+                            badgeExp.style.display = 'inline-flex';
+                        }
+                    }
+
                     document.getElementById('display-profile').innerText = credenciais.profile; 
                     document.getElementById('display-profile').style.display = 'inline-block';
                     document.getElementById('login-section').style.display = 'none'; 
@@ -365,12 +441,13 @@
                 } else { throw new Error("Usuário ou Senha incorretos."); }
             } catch (e) {
                 mensagem.className = 'erro'; 
-                mensagem.innerText = "Erro de conexão. Navegador está bloqueando ou os dados estão errados.";
+                mensagem.innerText = "Erro de conexão. O servidor pode estar bloqueando (CORS).";
             } finally { btnEntrar.disabled = false; }
         });
 
         function fazerLogout() { 
             fecharPlayer(); fecharDetalhes(); 
+            sessionStorage.setItem('logged_out', 'true'); // Trava o F5 para não auto-logar
             document.getElementById('dashboard-section').style.display = 'none'; 
             document.getElementById('login-section').style.display = 'flex'; 
         }
@@ -395,9 +472,7 @@
                 categorias.forEach(cat => {
                     const card = document.createElement('div'); card.className = 'card-item';
                     
-                    // Pega a imagem da API, se for vazia usa o fallback
                     let imgUrl = getSafeImage(cat.category_icon);
-                    // Se o link vier quebrado, o onerror troca para o icon.ico
                     let icone = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';">`;
                     
                     card.innerHTML = `${icone}<div class="card-title">${cat.category_name}</div>`;
@@ -532,15 +607,23 @@
         function criarCardFavorito(item, grid) {
             const card = document.createElement('div'); card.className = 'card-item';
             const imgUrl = getSafeImage(item.stream_icon);
-            const imgTag = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';">`;
-            card.innerHTML = `${imgTag}<div class="card-title">${item.nome}</div>`;
+            card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';"><div class="card-title">${item.nome}</div>`;
             card.onclick = () => interceptarAbrirDetalhes(item, item.nome);
             grid.appendChild(card);
         }
 
-        // --- PLAYER NATIVO DA WEB (CONTROLES EMBUTIDOS) ---
+        // --- PLAYER DE VÍDEO CUSTOMIZADO YOUTUBE STYLE ---
         const player = document.getElementById('player');
+        const videoWrapper = document.getElementById('video-wrapper');
+        const playBtn = document.getElementById('yt-play-btn');
+        const progressBar = document.getElementById('yt-progress');
+        const progressContainer = document.getElementById('yt-progress-container');
+        const timeDisplay = document.getElementById('yt-time');
+        const muteBtn = document.getElementById('yt-mute-btn');
+        const volSlider = document.getElementById('yt-vol-slider');
         
+        let hideControlsTimeout;
+
         function formatTime(seconds) {
             if (isNaN(seconds)) return "00:00";
             let min = Math.floor(seconds / 60);
@@ -548,8 +631,45 @@
             return `${min < 10 ? '0'+min : min}:${sec < 10 ? '0'+sec : sec}`;
         }
 
+        document.getElementById('yt-rewind-btn').onclick = () => { player.currentTime = Math.max(0, player.currentTime - 10); };
+        document.getElementById('yt-forward-btn').onclick = () => { player.currentTime = Math.min(player.duration, player.currentTime + 10); };
+        
+        muteBtn.onclick = () => {
+            player.muted = !player.muted;
+            volSlider.value = player.muted ? 0 : player.volume;
+            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
+        };
+        
+        volSlider.oninput = (e) => {
+            player.volume = e.target.value;
+            player.muted = player.volume == 0;
+            muteBtn.innerText = player.muted ? '🔇' : (player.volume > 0.5 ? '🔊' : '🔉');
+        };
+
+        document.getElementById('yt-download-btn').onclick = () => {
+            alert("Atenção: O vídeo será aberto em uma nova guia para download.\n\nPara salvar, clique no ícone de 3 pontos no vídeo e escolha 'Fazer o download'.");
+            window.open(urlVideoAtual, '_blank');
+        };
+
+        playBtn.onclick = () => { if(player.paused) player.play(); else player.pause(); };
+        player.onplay = () => playBtn.innerHTML = '⏸';
+        player.onpause = () => playBtn.innerHTML = '▶';
+
+        // Sistema avançado de recuperação de erros do HLS
+        player.onerror = () => { 
+            if(tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) {
+                document.getElementById('hls-error-msg').style.display = 'block'; 
+            }
+        };
+
         player.ontimeupdate = () => {
-            if (tipoAtual !== 'live' && player.currentTime > 5 && player.duration > 0) {
+            if(tipoAtual === 'live') return; 
+            if(!player.duration) return;
+            const percent = (player.currentTime / player.duration) * 100;
+            progressBar.style.width = percent + '%';
+            timeDisplay.innerText = `${formatTime(player.currentTime)} / ${formatTime(player.duration)}`;
+
+            if (player.currentTime > 5 && player.duration > 0) {
                 if (player.currentTime < player.duration - 15) {
                     localStorage.setItem('iptv_time_' + videoIdAtual, player.currentTime);
                 } else {
@@ -558,12 +678,23 @@
             }
         };
 
-        function baixarVideo() {
-            alert("O vídeo será aberto em uma nova guia para download.\n\nClique no ícone de 3 pontos no vídeo e escolha 'Fazer o download'.");
-            window.open(urlVideoAtual, '_blank');
-        }
+        progressContainer.onclick = (e) => {
+            if(tipoAtual === 'live') return;
+            const rect = progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            player.currentTime = pos * player.duration;
+        };
 
-        function abrirMenuCast() { alert("Transmitindo via Web:\n💻 PC (Chrome): Clique com o botão direito no vídeo e selecione 'Transmitir...'\n📱 iOS (Safari): Use o ícone nativo do AirPlay dentro do player."); }
+        document.getElementById('yt-fullscreen-btn').onclick = () => {
+            if (!document.fullscreenElement) { videoWrapper.requestFullscreen().catch(e=>console.log(e)); } 
+            else { document.exitFullscreen(); }
+        };
+
+        videoWrapper.onmousemove = () => {
+            videoWrapper.classList.add('show-controls');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => { videoWrapper.classList.remove('show-controls'); }, 3000);
+        };
 
         function prepararVideo(id, ext, nome) {
             videoIdAtual = id;
@@ -597,21 +728,63 @@
             document.getElementById('resume-modal').style.display = 'none';
             document.getElementById('video-modal').style.display = 'flex';
             document.getElementById('video-title').innerText = nomeVideoAtual;
+            document.getElementById('hls-error-msg').style.display = 'none';
+            
+            if(tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) {
+                document.getElementById('yt-download-btn').style.display = 'none';
+            } else {
+                document.getElementById('yt-download-btn').style.display = 'inline-flex';
+            }
 
-            document.getElementById('btn-download').style.display = (tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) ? 'none' : 'flex';
+            if(tipoAtual === 'live') {
+                timeDisplay.innerText = '🔴 Ao Vivo';
+                progressContainer.style.display = 'none';
+            } else {
+                timeDisplay.innerText = 'Carregando...';
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+            }
 
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
 
             const aplicarStartTime = () => {
                 if(startTime > 0) player.currentTime = startTime;
-                player.play().catch(e => console.log(e));
+                player.play().catch(e => console.log("Autoplay bloqueado pelo navegador", e));
             };
 
+            // VERIFICAÇÃO INTELIGENTE PARA CELULARES (iOS Safari usa o nativo)
             if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
-                hlsInfo = new Hls(); 
+                hlsInfo = new Hls({ debug: false, enableWorker: true }); 
+                
+                hlsInfo.on(Hls.Events.ERROR, function (event, data) {
+                    if (data.fatal) {
+                        switch (data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.log("Erro de rede HLS, tentando recuperar...");
+                                hlsInfo.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.log("Erro de mídia HLS, tentando recuperar...");
+                                hlsInfo.recoverMediaError();
+                                break;
+                            default:
+                                hlsInfo.destroy();
+                                document.getElementById('hls-error-msg').style.display = 'block';
+                                break;
+                        }
+                    }
+                });
+
                 hlsInfo.loadSource(urlVideoAtual); 
                 hlsInfo.attachMedia(player);
                 hlsInfo.on(Hls.Events.MANIFEST_PARSED, aplicarStartTime);
+            
+            // FALLBACK VIP PARA CELULARES (iPhones / iPads)
+            } else if (player.canPlayType('application/vnd.apple.mpegurl')) {
+                player.src = urlVideoAtual;
+                player.addEventListener('loadedmetadata', function() {
+                    aplicarStartTime();
+                });
             } else { 
                 player.src = urlVideoAtual; 
                 player.onloadedmetadata = () => { if(startTime > 0) player.currentTime = startTime; };
@@ -621,9 +794,12 @@
 
         function fecharPlayer() {
             document.getElementById('video-modal').style.display = 'none';
+            if (document.fullscreenElement) document.exitFullscreen();
             player.pause(); player.src = '';
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
         }
+
+        function abrirMenuCast() { alert("Transmitindo via Web:\n\n💻 PC (Chrome): Clique com o botão direito no vídeo e selecione 'Transmitir...'\n\n📱 iOS (Safari): Use o ícone nativo do AirPlay dentro do player."); }
 
         // --- LÓGICA DE PESQUISA ---
         function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
@@ -645,7 +821,7 @@
             fecharDetalhes(); 
             document.getElementById('titulo-sessao').innerText = `Procurando "${termo}" em tudo...`; 
             document.getElementById('btn-voltar').style.display = 'block';
-            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo...</div>';
+            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo (Isso pode levar alguns segundos)...</div>';
             
             let acaoApi = tipoAtual === 'live' ? 'get_live_streams' : tipoAtual === 'vod' ? 'get_vod_streams' : 'get_series';
             try {
