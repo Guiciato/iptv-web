@@ -237,8 +237,9 @@
             </div>
 
             <div id="hls-error-msg">
-                <strong>O Navegador Bloqueou a TV Ao Vivo 🔒</strong><br>
-                O servidor usa HTTP. Ative a extensão CORS ou use pelo celular!
+                <strong>O Navegador Bloqueou o Vídeo 🔒</strong><br>
+                O servidor usa HTTP e o site é HTTPS.<br>
+                Use localmente, ative a extensão de CORS ou use HTTPS no login.
             </div>
 
             <video id="player" playsinline></video>
@@ -324,7 +325,7 @@
         let meusFavoritos = { live: [], vod: [], series: [] };
         const imgFallback = 'icon.ico';
 
-        // --- SISTEMA DE F5 INVISÍVEL (AUTO-LOGIN) ---
+        // --- SISTEMA DE AUTO-LOGIN (F5 / REFRESH) ---
         window.onload = () => {
             const dadosSalvos = localStorage.getItem('iptv_dados');
             if (dadosSalvos) {
@@ -334,11 +335,9 @@
                 document.getElementById('username').value = dados.user || '';
                 document.getElementById('password').value = dados.pass || '';
                 document.getElementById('lembrarSenha').checked = true;
-
-                // Se o usuário não clicou no botão Sair, faz auto-login!
-                if (!sessionStorage.getItem('logged_out')) {
-                    setTimeout(() => { document.getElementById('btnEntrar').click(); }, 300);
-                }
+                
+                // Força o login automático se estava salvo
+                document.getElementById('btnEntrar').click();
             }
             if (localStorage.getItem('iptv_favoritos')) meusFavoritos = JSON.parse(localStorage.getItem('iptv_favoritos'));
         };
@@ -407,47 +406,26 @@
                     if (lembrar) localStorage.setItem('iptv_dados', JSON.stringify(credenciais));
                     else localStorage.removeItem('iptv_dados');
 
-                    sessionStorage.removeItem('logged_out'); // Reseta a flag para o F5 funcionar de novo
-
-                    if (data.user_info.exp_date && data.user_info.exp_date !== "null") {
-                        const timestamp = parseInt(data.user_info.exp_date);
-                        if (!isNaN(timestamp)) {
-                            const dataExp = new Date(timestamp * 1000);
-                            const hoje = new Date();
-                            const diasRestantes = Math.ceil((dataExp - hoje) / (1000 * 60 * 60 * 24));
-                            const dia = String(dataExp.getDate()).padStart(2, '0');
-                            const mes = String(dataExp.getMonth() + 1).padStart(2, '0');
-                            const ano = dataExp.getFullYear();
-                            
-                            const badgeExp = document.getElementById('display-expire');
-                            badgeExp.innerHTML = `🔋 Expira: ${dia}/${mes}/${ano}`;
-                            
-                            if (diasRestantes <= 7) { 
-                                badgeExp.className = 'expire-badge danger'; 
-                            } else if (diasRestantes <= 15) { 
-                                badgeExp.className = 'expire-badge warning'; 
-                            } else { 
-                                badgeExp.className = 'expire-badge'; 
-                            }
-                            badgeExp.style.display = 'inline-flex';
-                        }
-                    }
-
                     document.getElementById('display-profile').innerText = credenciais.profile; 
                     document.getElementById('display-profile').style.display = 'inline-block';
                     document.getElementById('login-section').style.display = 'none'; 
                     document.getElementById('dashboard-section').style.display = 'flex';
-                    carregarCategorias('get_live_categories', 'TV Ao Vivo', document.querySelector('.nav-btn.active'), 'live');
+                    
+                    // Se não tiver categorias carregadas, carrega a TV
+                    if(document.getElementById('grid-conteudo').innerHTML === '') {
+                        carregarCategorias('get_live_categories', 'TV Ao Vivo', document.querySelector('.nav-btn.active'), 'live');
+                    }
                 } else { throw new Error("Usuário ou Senha incorretos."); }
             } catch (e) {
                 mensagem.className = 'erro'; 
-                mensagem.innerText = "Erro de conexão. O servidor pode estar bloqueando (CORS).";
+                mensagem.innerText = "Erro de conexão. O link no navegador está sendo bloqueado (CORS ou Mixed Content).";
             } finally { btnEntrar.disabled = false; }
         });
 
         function fazerLogout() { 
             fecharPlayer(); fecharDetalhes(); 
-            sessionStorage.setItem('logged_out', 'true'); // Trava o F5 para não auto-logar
+            localStorage.removeItem('iptv_dados'); // Limpa o auto-login
+            document.getElementById('lembrarSenha').checked = false;
             document.getElementById('dashboard-section').style.display = 'none'; 
             document.getElementById('login-section').style.display = 'flex'; 
         }
@@ -456,6 +434,20 @@
         function getSafeImage(imgUrl) {
             if (!imgUrl || imgUrl.trim() === '') return imgFallback;
             return imgUrl;
+        }
+
+        function obterEmojiCategoria(nome) {
+            let n = nome.toLowerCase();
+            if (n.includes('comédia')) return '😂';
+            if (n.includes('ação') || n.includes('acao')) return '💥';
+            if (n.includes('terror') || n.includes('horror')) return '👻';
+            if (n.includes('esporte') || n.includes('futebol')) return '⚽';
+            if (n.includes('notícia') || n.includes('jornal') || n.includes('news')) return '📰';
+            if (n.includes('infantil') || n.includes('kids') || n.includes('desenho')) return '🧸';
+            if (n.includes('adulto') || n.includes('18')) return '🔞';
+            if (n.includes('lançamento') || n.includes('lancamento')) return '🚀';
+            if (n.includes('filme') || n.includes('cinema')) return '🍿';
+            return null;
         }
 
         // --- CARREGAMENTO API ---
@@ -473,7 +465,10 @@
                     const card = document.createElement('div'); card.className = 'card-item';
                     
                     let imgUrl = getSafeImage(cat.category_icon);
-                    let icone = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';">`;
+                    let emoji = obterEmojiCategoria(cat.category_name);
+                    let icone = emoji 
+                        ? `<div class="folder-icon" style="font-size: 55px;">${emoji}</div>` 
+                        : `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';">`;
                     
                     card.innerHTML = `${icone}<div class="card-title">${cat.category_name}</div>`;
                     card.onclick = () => interceptarCarregarConteudo(cat.category_id, cat.category_name);
@@ -607,7 +602,8 @@
         function criarCardFavorito(item, grid) {
             const card = document.createElement('div'); card.className = 'card-item';
             const imgUrl = getSafeImage(item.stream_icon);
-            card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';"><div class="card-title">${item.nome}</div>`;
+            const imgTag = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';">`;
+            card.innerHTML = `${imgTag}<div class="card-title">${item.nome}</div>`;
             card.onclick = () => interceptarAbrirDetalhes(item, item.nome);
             grid.appendChild(card);
         }
@@ -655,13 +651,6 @@
         player.onplay = () => playBtn.innerHTML = '⏸';
         player.onpause = () => playBtn.innerHTML = '▶';
 
-        // Sistema avançado de recuperação de erros do HLS
-        player.onerror = () => { 
-            if(tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) {
-                document.getElementById('hls-error-msg').style.display = 'block'; 
-            }
-        };
-
         player.ontimeupdate = () => {
             if(tipoAtual === 'live') return; 
             if(!player.duration) return;
@@ -690,11 +679,14 @@
             else { document.exitFullscreen(); }
         };
 
-        videoWrapper.onmousemove = () => {
+        // Suporte para aparecer controles no mobile (touch) e mouse
+        const showControls = () => {
             videoWrapper.classList.add('show-controls');
             clearTimeout(hideControlsTimeout);
             hideControlsTimeout = setTimeout(() => { videoWrapper.classList.remove('show-controls'); }, 3000);
         };
+        videoWrapper.addEventListener('mousemove', showControls);
+        videoWrapper.addEventListener('touchstart', showControls);
 
         function prepararVideo(id, ext, nome) {
             videoIdAtual = id;
@@ -747,24 +739,34 @@
 
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
 
+            // BYPASS MOBILE: Tenta dar play, se o Safari bloquear, ele muta e tenta de novo
             const aplicarStartTime = () => {
                 if(startTime > 0) player.currentTime = startTime;
-                player.play().catch(e => console.log("Autoplay bloqueado pelo navegador", e));
+                let playPromise = player.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Autoplay bloqueado pelo celular. Mutando para forçar o play.", error);
+                        player.muted = true;
+                        volSlider.value = 0;
+                        muteBtn.innerText = '🔇';
+                        player.play().catch(e => console.error("Falha dupla no play", e));
+                    });
+                }
             };
 
-            // VERIFICAÇÃO INTELIGENTE PARA CELULARES (iOS Safari usa o nativo)
             if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
-                hlsInfo = new Hls({ debug: false, enableWorker: true }); 
+                hlsInfo = new Hls(); 
                 
+                // AUTO-RECOVER DE TV AO VIVO
                 hlsInfo.on(Hls.Events.ERROR, function (event, data) {
                     if (data.fatal) {
                         switch (data.type) {
                             case Hls.ErrorTypes.NETWORK_ERROR:
-                                console.log("Erro de rede HLS, tentando recuperar...");
+                                console.log("Erro de rede no canal ao vivo, tentando reconectar...");
                                 hlsInfo.startLoad();
                                 break;
                             case Hls.ErrorTypes.MEDIA_ERROR:
-                                console.log("Erro de mídia HLS, tentando recuperar...");
+                                console.log("Erro de mídia no canal ao vivo, tentando recuperar...");
                                 hlsInfo.recoverMediaError();
                                 break;
                             default:
@@ -778,17 +780,10 @@
                 hlsInfo.loadSource(urlVideoAtual); 
                 hlsInfo.attachMedia(player);
                 hlsInfo.on(Hls.Events.MANIFEST_PARSED, aplicarStartTime);
-            
-            // FALLBACK VIP PARA CELULARES (iPhones / iPads)
-            } else if (player.canPlayType('application/vnd.apple.mpegurl')) {
-                player.src = urlVideoAtual;
-                player.addEventListener('loadedmetadata', function() {
-                    aplicarStartTime();
-                });
             } else { 
                 player.src = urlVideoAtual; 
                 player.onloadedmetadata = () => { if(startTime > 0) player.currentTime = startTime; };
-                player.play().catch(e => console.log(e)); 
+                aplicarStartTime(); 
             }
         }
 
@@ -799,7 +794,7 @@
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
         }
 
-        function abrirMenuCast() { alert("Transmitindo via Web:\n\n💻 PC (Chrome): Clique com o botão direito no vídeo e selecione 'Transmitir...'\n\n📱 iOS (Safari): Use o ícone nativo do AirPlay dentro do player."); }
+        function abrirMenuCast() { alert("Transmitindo via Web:\n\n💻 PC (Chrome): Clique com o botão direito no vídeo e selecione 'Transmitir...'\n\n📱 iOS (Safari): Use o ícone nativo do AirPlay."); }
 
         // --- LÓGICA DE PESQUISA ---
         function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
@@ -821,7 +816,7 @@
             fecharDetalhes(); 
             document.getElementById('titulo-sessao').innerText = `Procurando "${termo}" em tudo...`; 
             document.getElementById('btn-voltar').style.display = 'block';
-            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo (Isso pode levar alguns segundos)...</div>';
+            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo...</div>';
             
             let acaoApi = tipoAtual === 'live' ? 'get_live_streams' : tipoAtual === 'vod' ? 'get_vod_streams' : 'get_series';
             try {
