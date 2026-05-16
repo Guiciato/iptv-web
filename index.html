@@ -46,20 +46,15 @@
         nav { display: flex; gap: 10px; flex-wrap: wrap; }
         .nav-btn { background-color: #222; color: #ddd; border: 1px solid #444; padding: 10px 15px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-weight: 600; white-space: nowrap; }
         .nav-btn:hover, .nav-btn.active { background-color: #ffffff; color: #0d0d0d; border-color: #ffffff; }
-        
-        .btn-refresh { background-color: transparent; color: #00bcd4; border: 1px solid #00bcd4; }
-        .btn-refresh:hover { background-color: #00bcd4; color: #0d0d0d; }
-        .btn-fav-nav { border-color: #ffd700; color: #ffd700; }
-        .btn-fav-nav:hover, .btn-fav-nav.active { background-color: #ffd700; color: #0d0d0d; }
         .btn-pwd-nav { background-color: transparent; color: #ff9800; border: 1px solid #ff9800; }
         .btn-pwd-nav:hover { background-color: #ff9800; color: #0d0d0d; }
+        .btn-fav-nav { border-color: #ffd700; color: #ffd700; }
+        .btn-fav-nav:hover, .btn-fav-nav.active { background-color: #ffd700; color: #0d0d0d; }
         .btn-sair { background-color: transparent; color: #ff5252; border: 1px solid #ff5252; }
         .btn-sair:hover { background-color: #ff5252; color: white; border-color: #ff5252; }
 
         .search-container { display: flex; align-items: center; background-color: #222; border-radius: 20px; padding: 5px 15px; border: 1px solid #444; flex-grow: 1; max-width: 350px; transition: 0.3s; }
-        .search-container:focus-within { border-color: #ffffff; }
-        .search-container span { font-size: 18px; margin-right: 8px; color: #888; }
-        .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; font-size: 14px; }
+        .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; font-size: 14px; margin-left: 8px;}
 
         main { flex: 1; padding: 20px; overflow-y: auto; position: relative; -webkit-overflow-scrolling: touch; }
         .header-sessao { display: flex; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
@@ -77,10 +72,6 @@
 
         .folder-icon { font-size: 60px; display: flex; align-items: center; justify-content: center; height: 160px; transition: 0.3s; }
         
-        .season-block { height: 140px; background: linear-gradient(135deg, #222, #111); display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 3px solid #ffffff;}
-        .season-title { font-size: 32px; font-weight: bold; color: #fff; }
-        .season-episodes { font-size: 13px; color: #aaa; margin-top: 5px; }
-
         /* TELA DE DETALHES */
         #details-screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #0d0d0d; z-index: 5; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .details-hero { position: relative; width: 100%; min-height: 400px; display: flex; padding: 40px; gap: 30px; align-items: flex-end; background-size: cover; background-position: center; flex-wrap: wrap; }
@@ -88,7 +79,6 @@
         .details-poster { width: 180px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.8); z-index: 2; background: #111; object-fit: contain; padding: 5px;}
         .details-info { z-index: 2; max-width: 800px; flex: 1; min-width: 280px;}
         .details-title { font-size: 32px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px 4px #000; }
-        .details-meta { font-size: 14px; color: #ccc; margin-bottom: 15px; font-weight: bold; }
         .details-plot { font-size: 15px; line-height: 1.5; color: #ddd; margin-bottom: 25px; text-shadow: 1px 1px 3px #000; }
         
         .details-actions { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
@@ -98,30 +88,36 @@
         .btn-fav-big:hover { background: #fff; color: #000; }
         .btn-fav-big.is-fav { border-color: #ffd700; color: #ffd700; }
 
-        .btn-close-details { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); border: none; color: #fff; font-size: 24px; cursor: pointer; z-index: 10; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
-        .btn-close-details:hover { color: #ff5252; background: rgba(0,0,0,0.8); }
-
+        .btn-close-details { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); border: none; color: #fff; font-size: 24px; cursor: pointer; z-index: 10; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; transition: 0.2s;}
+        .btn-close-details:hover { background: rgba(0,0,0,0.8); color: #ff5252; }
         .details-extra-content { padding: 20px; z-index: 2; position: relative; }
+
+        /* PLAYER NATIVO SIMPLIFICADO */
+        #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 1000; flex-direction: column; }
+        .video-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #111; border-bottom: 1px solid #333; }
+        .video-title { font-size: 18px; font-weight: bold; color: #ffffff; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 15px; }
+        .btn-fechar-video { background-color: #ff5252; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        .btn-fechar-video:hover { background-color: #ff0000; }
         
-        /* PLAYER NATIVO LIMPO */
-        #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
-        .video-header { position: absolute; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); z-index: 1001; }
-        .video-title { font-size: 18px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 3px #000; }
-        .controles-topo { display: flex; gap: 10px; }
-        .btn-acao { background-color: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .btn-acao:hover { background-color: #ffffff; color: #000; }
-        .btn-fechar-video { background-color: #ff5252; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .video-container { flex: 1; display: flex; justify-content: center; align-items: center; background: #000; position: relative; width: 100%; }
+        video { width: 100%; height: 100%; outline: none; max-height: calc(100vh - 140px); background: #000; }
         
-        .video-wrapper { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: black; }
-        video { width: 100%; height: 100%; max-height: 100vh; outline: none; }
-        
-        /* Modais */
+        #video-error { display: none; position: absolute; background: rgba(0,0,0,0.9); padding: 20px; border-radius: 8px; color: #ff5252; text-align: center; border: 1px solid #ff5252; z-index: 1001;}
+        .btn-forcar { background: #00bcd4; color: #000; font-weight: bold; border: none; padding: 10px 20px; border-radius: 6px; margin-top: 15px; cursor: pointer; }
+
+        .custom-bottom-bar { background: #111; padding: 15px 20px; display: flex; justify-content: center; gap: 15px; border-top: 1px solid #333; flex-wrap: wrap; }
+        .action-btn { background: #222; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s;}
+        .action-btn:hover { background: #fff; color: #000; }
+
+        /* MODAIS */
         .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px;}
         .modal-content { background: #1a1a1a; padding: 30px; border-radius: 10px; border: 1px solid #444; width: 100%; max-width: 350px; text-align: center; }
         .modal-content h3 { margin-bottom: 10px; color: #fff; }
         .modal-content p { color: #aaa; margin-bottom: 20px; font-size: 14px; }
         .modal-content input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; outline: none; font-size: 16px; text-align: center; margin-bottom: 5px; }
         .modal-content input:focus { border-color: #fff; }
+        .btn-acao { background-color: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-acao:hover { background-color: #ffffff; color: #000; }
     </style>
 </head>
 <body>
@@ -147,8 +143,6 @@
             <h1>
                 <img src="icon.ico" alt="Logo" class="header-logo" onerror="this.style.display='none'">
                 Meu App IPTV 
-                <span id="display-profile" class="profile-badge" style="display: none;"></span>
-                <span id="display-expire" class="expire-badge" style="display: none;"></span>
             </h1>
             <div class="search-container">
                 <span>🔍</span>
@@ -162,6 +156,10 @@
                 <button class="nav-btn btn-pwd-nav" onclick="abrirModalTrocarSenha()">🔒 Senha +18</button>
                 <button class="nav-btn btn-sair" onclick="fazerLogout()">Sair 🚪</button>
             </nav>
+            <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 5px;">
+                <span id="display-profile" class="profile-badge" style="display: none;"></span>
+                <span id="display-expire" class="expire-badge" style="display: none;"></span>
+            </div>
         </header>
         
         <main>
@@ -180,7 +178,6 @@
                     <img id="details-poster" class="details-poster" src="" onerror="this.src='icon.ico'">
                     <div class="details-info">
                         <h1 id="details-title">Título</h1>
-                        <div class="details-meta" id="details-meta"></div>
                         <p class="details-plot" id="details-plot">Sinopse indisponível.</p>
                         <div class="details-actions">
                             <button class="btn-play-big" id="btn-details-play">▶ Assistir</button>
@@ -189,7 +186,7 @@
                     </div>
                 </div>
                 <div class="details-extra-content" id="details-extra">
-                    <h2 id="details-extra-title" style="margin-bottom: 20px; display: flex; align-items: center; gap: 15px;"></h2>
+                    <button class="btn-voltar" id="btn-voltar-temporadas" style="margin-bottom: 20px; display: none;" onclick="voltarParaTemporadas()">⬅ Voltar Temporadas</button>
                     <div class="grid-container" id="details-extra-grid"></div>
                 </div>
             </div>
@@ -197,23 +194,38 @@
     </div>
 
     <div id="video-modal">
-        <div class="video-header" id="video-header">
+        <div class="video-header">
             <div class="video-title" id="video-title">Vídeo</div>
-            <div class="controles-topo">
-                <button class="btn-fechar-video" onclick="fecharPlayer()">Fechar ❌</button>
-            </div>
+            <button class="btn-fechar-video" onclick="fecharPlayer()">✕ Fechar Player</button>
         </div>
-        
-        <div class="video-wrapper">
+        <div class="video-container">
+            <div id="video-error">
+                <strong>Bloqueio de Navegador / Servidor 🔒</strong><br>
+                <button class="btn-forcar" onclick="forcarAbaExterna()">Forçar Vídeo (Nova Aba)</button>
+            </div>
             <video id="player" controls autoplay playsinline></video>
+        </div>
+        <div class="custom-bottom-bar">
+            <button class="action-btn" onclick="player.currentTime -= 10">⏪ Voltar 10s</button>
+            <button class="action-btn" onclick="player.currentTime += 10">⏩ Avançar 10s</button>
+            <button class="action-btn" id="btn-download" onclick="baixarVideo()">📥 Baixar Vídeo</button>
+        </div>
+    </div>
+
+    <div id="resume-modal" class="custom-modal">
+        <div class="modal-content">
+            <h3>Continuar Assistindo?</h3>
+            <div style="display:flex; justify-content: center; gap:10px; margin-top:15px;">
+                <button class="btn-acao" onclick="iniciarVideoHLS(0)">Do Início</button>
+                <button class="btn-play-big" style="padding: 8px 25px; font-size: 14px;" id="btn-resume-continue">Continuar</button>
+            </div>
         </div>
     </div>
 
     <div id="adult-modal" class="custom-modal">
         <div class="modal-content">
             <h3>Conteúdo +18 🔞</h3>
-            <p>Este conteúdo é bloqueado.</p>
-            <input type="password" id="adult-pwd-input" placeholder="Digite a senha...">
+            <input type="password" id="adult-pwd-input" placeholder="Digite a senha secreta...">
             <div id="adult-error" style="color:#ff5252; font-size:12px; margin-top:5px; display:none;">Senha incorreta!</div>
             <div style="display:flex; justify-content: center; gap:10px; margin-top:15px;">
                 <button class="btn-acao" onclick="fecharModalAdulto()">Cancelar</button>
@@ -225,10 +237,10 @@
     <div id="change-pwd-modal" class="custom-modal">
         <div class="modal-content">
             <h3>Trocar Senha +18</h3>
-            <p>Proteja os conteúdos sensíveis do aplicativo.</p>
+            <p>A senha padrão inicial é: 5274</p>
             <input type="password" id="old-pwd-input" placeholder="Senha Atual">
             <input type="password" id="new-pwd-input" placeholder="Nova Senha" style="margin-top:10px;">
-            <div id="change-pwd-error" style="color:#ff5252; font-size:12px; margin-top:5px; display:none;">Erro ao trocar a senha.</div>
+            <div id="change-pwd-error" style="color:#ff5252; font-size:12px; margin-top:5px; display:none;">Senha incorreta ou nova senha curta.</div>
             <div id="change-pwd-success" style="color:#4caf50; font-size:13px; font-weight:bold; margin-top:5px; display:none;">Senha alterada com sucesso!</div>
             <div style="display:flex; justify-content: center; gap:10px; margin-top:15px;">
                 <button class="btn-acao" onclick="fecharModalTrocarSenha()">Cancelar</button>
@@ -241,25 +253,10 @@
         // --- VARIÁVEIS GLOBAIS ---
         let credenciais = { profile: '', url: '', user: '', pass: '' };
         let tipoAtual = 'live'; let modoAtual = 'categorias';
-        let timeoutPesquisa = null; let hlsInfo = null;
-        let urlVideoAtual = ''; let nomeVideoAtual = '';
+        let hlsInfo = null; let urlVideoAtual = ''; let nomeVideoAtual = ''; let videoIdAtual = '';
         let infoVideoAtual = null; let serieDadosCompletos = null; 
         let meusFavoritos = { live: [], vod: [], series: [] };
         const imgFallback = 'icon.ico';
-
-        // --- FUNÇÃO PROXY PARA BURLAR CORS NAS PASTAS ---
-        async function fetchApi(url) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error("Erro direto");
-                return await response.json();
-            } catch (error) {
-                // Se o servidor recusar, tenta pelo proxy público
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-                const proxyResponse = await fetch(proxyUrl);
-                return await proxyResponse.json();
-            }
-        }
 
         window.onload = () => {
             const dadosSalvos = localStorage.getItem('iptv_dados');
@@ -270,8 +267,6 @@
                 document.getElementById('username').value = dados.user || '';
                 document.getElementById('password').value = dados.pass || '';
                 document.getElementById('lembrarSenha').checked = true;
-                
-                // Login Automático Fantasma
                 setTimeout(() => { document.getElementById('loginForm').dispatchEvent(new Event('submit')); }, 500);
             }
             if (localStorage.getItem('iptv_favoritos')) meusFavoritos = JSON.parse(localStorage.getItem('iptv_favoritos'));
@@ -279,68 +274,34 @@
         
         function salvarFavoritos() { localStorage.setItem('iptv_favoritos', JSON.stringify(meusFavoritos)); }
 
-        // --- FUNÇÕES DE LOGO E EMOJIS ---
-        function obterLogoMarcaFixa(nome) {
-            let n = nome.toLowerCase().trim();
-            if (n === 'globo' || n.includes('tv globo') || n.includes('rede globo')) return 'https://upload.wikimedia.org/wikipedia/commons/2/24/TV_Globo_logo.svg'; 
-            if (n.includes('record')) return 'https://upload.wikimedia.org/wikipedia/commons/4/46/Record_logo.svg';
-            if (n.includes('sbt')) return 'https://upload.wikimedia.org/wikipedia/commons/b/b8/SBT_logo_2021.svg';
-            if (n.includes('band')) return 'https://upload.wikimedia.org/wikipedia/commons/1/15/Band_logo.svg';
-            if (n.includes('sportv')) return 'https://upload.wikimedia.org/wikipedia/commons/4/41/SporTV_logo.svg';
-            if (n.includes('premiere')) return 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Premiere_logo.svg';
-            if (n.includes('telecine')) return 'https://upload.wikimedia.org/wikipedia/commons/8/87/Telecine_logo.svg';
-            if (n.includes('hbo') || n.includes('max')) return 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg';
-            return null;
-        }
-
-        function obterEmojiCategoria(nome) {
-            let n = nome.toLowerCase();
-            if (n.includes('comédia')) return '😂';
-            if (n.includes('ação') || n.includes('acao')) return '💥';
-            if (n.includes('terror') || n.includes('horror')) return '👻';
-            if (n.includes('esporte') || n.includes('futebol')) return '⚽';
-            if (n.includes('notícia') || n.includes('jornal') || n.includes('news')) return '📰';
-            if (n.includes('infantil') || n.includes('kids') || n.includes('desenho')) return '🧸';
-            if (n.includes('adulto') || n.includes('18')) return '🔞';
-            if (n.includes('lançamento') || n.includes('lancamento')) return '🚀';
-            if (n.includes('filme') || n.includes('cinema')) return '🍿';
-            return null;
-        }
-
         // --- SISTEMA CONTROLE PARENTAL ---
         function getSenhaAdulto() { return localStorage.getItem('iptv_adult_pwd') || '5274'; }
         let callbackSenhaAdulto = null;
-        
         function isAdultContent(name) {
             if (!name) return false;
             let n = name.toLowerCase();
             return n.includes('adulto') || n.includes('18') || n.includes('xxx') || n.includes('porn');
         }
-
         function interceptarCarregarConteudo(categoryId, categoryName) {
             if (isAdultContent(categoryName)) { abrirModalAdulto(() => carregarConteudoDaCategoria(categoryId, categoryName)); } else { carregarConteudoDaCategoria(categoryId, categoryName); }
         }
-
         function interceptarAbrirDetalhes(item, nomeItem) {
             if (isAdultContent(nomeItem) || isAdultContent(item.category_name)) { abrirModalAdulto(() => abrirDetalhes(item, nomeItem)); } else { abrirDetalhes(item, nomeItem); }
         }
-
         function abrirModalAdulto(callback) {
             callbackSenhaAdulto = callback;
             const input = document.getElementById('adult-pwd-input');
-            input.value = ''; input.placeholder = getSenhaAdulto() === '5274' ? "Senha padrão: 5274" : "Digite sua senha secreta...";
+            input.value = ''; input.placeholder = getSenhaAdulto() === '5274' ? "Senha padrão: 5274" : "Digite sua senha...";
             document.getElementById('adult-error').style.display = 'none';
             document.getElementById('adult-modal').style.display = 'flex';
             input.focus();
         }
-
         function fecharModalAdulto() { document.getElementById('adult-modal').style.display = 'none'; }
         function verificarSenhaAdulto() {
             if (document.getElementById('adult-pwd-input').value === getSenhaAdulto()) { let acaoSalva = callbackSenhaAdulto; fecharModalAdulto(); if (acaoSalva) acaoSalva(); } 
             else { document.getElementById('adult-error').style.display = 'block'; }
         }
         document.getElementById('adult-pwd-input').addEventListener('keypress', function (e) { if (e.key === 'Enter') verificarSenhaAdulto(); });
-
         function abrirModalTrocarSenha() { document.getElementById('change-pwd-modal').style.display = 'flex'; }
         function fecharModalTrocarSenha() { document.getElementById('change-pwd-modal').style.display = 'none'; }
         function salvarNovaSenha() {
@@ -350,7 +311,7 @@
             setTimeout(() => { fecharModalTrocarSenha(); }, 1500);
         }
 
-        // --- SISTEMA DE LOGIN E VALIDADE (BATERIA) ---
+        // --- LOGIN DIRETO E RÁPIDO (SEM PROXY) ---
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault(); 
             const btnEntrar = document.getElementById('btnEntrar');
@@ -364,39 +325,35 @@
             credenciais.user = document.getElementById('username').value.trim();
             credenciais.pass = document.getElementById('password').value.trim();
 
-            btnEntrar.disabled = true; mensagem.className = 'carregando'; mensagem.innerText = 'Autenticando...';
+            btnEntrar.disabled = true; mensagem.className = 'carregando'; 
+            mensagem.innerText = 'Autenticando...';
 
             try {
                 const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}`;
-                const data = await fetchApi(url);
+                // Fetch direto e simples (Sem proxy que quebra)
+                const res = await fetch(url);
+                const data = await res.json();
                 
                 if (data.user_info && data.user_info.auth === 1) {
                     if (lembrar) localStorage.setItem('iptv_dados', JSON.stringify(credenciais));
                     else localStorage.removeItem('iptv_dados');
 
-                    // LÓGICA DA VALIDADE (BATERIA) MANTIDA
+                    // Validade
                     if (data.user_info.exp_date && data.user_info.exp_date !== "null") {
                         const timestamp = parseInt(data.user_info.exp_date);
                         if (!isNaN(timestamp)) {
                             const dataExp = new Date(timestamp * 1000);
                             const hoje = new Date();
                             const diasRestantes = Math.ceil((dataExp - hoje) / (1000 * 60 * 60 * 24));
-                            
                             const dia = String(dataExp.getDate()).padStart(2, '0');
                             const mes = String(dataExp.getMonth() + 1).padStart(2, '0');
                             const ano = dataExp.getFullYear();
                             
                             const badgeExp = document.getElementById('display-expire');
                             badgeExp.innerHTML = `🔋 Expira: ${dia}/${mes}/${ano}`;
-                            
-                            if (diasRestantes <= 7) { 
-                                badgeExp.className = 'expire-badge danger'; 
-                                badgeExp.innerHTML = `🪫 Expira: ${dia}/${mes}/${ano} (${diasRestantes} dias)`; 
-                            } else if (diasRestantes <= 15) { 
-                                badgeExp.className = 'expire-badge warning'; 
-                            } else { 
-                                badgeExp.className = 'expire-badge'; 
-                            }
+                            if (diasRestantes <= 7) { badgeExp.className = 'expire-badge danger'; } 
+                            else if (diasRestantes <= 15) { badgeExp.className = 'expire-badge warning'; } 
+                            else { badgeExp.className = 'expire-badge'; }
                             badgeExp.style.display = 'inline-flex';
                         }
                     }
@@ -406,67 +363,61 @@
                     document.getElementById('login-section').style.display = 'none'; 
                     document.getElementById('dashboard-section').style.display = 'flex';
                     
-                    if(document.getElementById('grid-conteudo').innerHTML === '') {
-                        carregarCategorias('get_live_categories', 'TV Ao Vivo', document.querySelector('.nav-btn.active'), 'live');
-                    }
-                } else { throw new Error("Usuário ou Senha incorretos."); }
+                    carregarCategorias('get_live_categories', 'TV Ao Vivo', document.querySelector('.nav-btn.active'), 'live');
+                } else { throw new Error("Usuário/Senha incorretos."); }
             } catch (e) {
                 mensagem.className = 'erro'; 
-                mensagem.innerText = "Erro de conexão. O servidor pode estar offline.";
+                mensagem.innerText = "Erro ao conectar. Verifique seus dados ou o bloqueio de rede.";
             } finally { btnEntrar.disabled = false; }
         });
 
         function fazerLogout() { 
             fecharPlayer(); fecharDetalhes(); 
             localStorage.removeItem('iptv_dados');
-            document.getElementById('lembrarSenha').checked = false;
             document.getElementById('dashboard-section').style.display = 'none'; 
             document.getElementById('login-section').style.display = 'flex'; 
         }
 
+        // --- FUNÇÕES DE INTERFACE ---
         function getSafeImage(imgUrl) {
             if (!imgUrl || imgUrl.trim() === '' || imgUrl.includes('ui-avatars.com')) return imgFallback;
             return imgUrl;
         }
 
-        // --- CARREGAMENTO API ---
         async function carregarCategorias(acaoApi, tituloTela, botaoClicado, tipo) {
-            fecharDetalhes(); document.querySelectorAll('.nav-btn:not(.btn-sair):not(.btn-pwd-nav)').forEach(btn => btn.classList.remove('active')); if(botaoClicado) botaoClicado.classList.add('active');
+            fecharDetalhes(); document.querySelectorAll('.nav-btn:not(.btn-sair)').forEach(btn => btn.classList.remove('active')); if(botaoClicado) botaoClicado.classList.add('active');
             tipoAtual = tipo; modoAtual = 'categorias'; document.getElementById('btn-voltar').style.display = 'none'; document.getElementById('titulo-sessao').innerText = `Categorias - ${tituloTela}`;
             document.getElementById('searchInput').value = '';
-            const grid = document.getElementById('grid-conteudo'); grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Carregando pastas...</div>';
+            const grid = document.getElementById('grid-conteudo'); grid.innerHTML = '<div style="color:#fff; text-align:center; width:100%;">Carregando pastas...</div>';
 
             try {
                 const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=${acaoApi}`;
-                const categorias = await fetchApi(url); 
+                const res = await fetch(url);
+                const categorias = await res.json(); 
                 grid.innerHTML = '';
                 
                 categorias.forEach(cat => {
                     const card = document.createElement('div'); card.className = 'card-item';
-                    let imgUrl = obterLogoMarcaFixa(cat.category_name) || cat.category_icon || imgFallback;
-                    let emoji = obterEmojiCategoria(cat.category_name);
-                    
-                    let icone = emoji 
-                        ? `<div class="folder-icon" style="font-size: 55px;">${emoji}</div>` 
-                        : `<img src="${imgUrl}" style="height:160px; object-fit:contain; background:#111;" onerror="this.onerror=null; this.src='${imgFallback}';">`;
-                    
-                    card.innerHTML = `${icone}<div class="card-title">${cat.category_name}</div>`;
+                    let imgUrl = getSafeImage(cat.category_icon);
+                    card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';"><div class="card-title">${cat.category_name}</div>`;
                     card.onclick = () => interceptarCarregarConteudo(cat.category_id, cat.category_name);
                     grid.appendChild(card);
                 });
-            } catch (e) { grid.innerHTML = 'Erro ao carregar as pastas.'; }
+            } catch (e) { grid.innerHTML = '<div style="color:red; text-align:center;">Erro de conexão direta. Ative sua extensão CORS ou acesse por HTTP.</div>'; }
         }
 
         async function carregarConteudoDaCategoria(categoryId, categoryName) {
             modoAtual = 'streams'; document.getElementById('btn-voltar').style.display = 'block'; document.getElementById('titulo-sessao').innerText = `Pasta: ${categoryName}`;
             document.getElementById('searchInput').value = '';
-            const grid = document.getElementById('grid-conteudo'); grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Carregando...</div>';
+            const grid = document.getElementById('grid-conteudo'); grid.innerHTML = '<div style="color:#fff; text-align:center; width:100%;">Carregando...</div>';
             let acaoApi = tipoAtual === 'live' ? `get_live_streams&category_id=${categoryId}` : tipoAtual === 'vod' ? `get_vod_streams&category_id=${categoryId}` : `get_series&category_id=${categoryId}`;
+            
             try {
                 const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=${acaoApi}`;
-                const itens = await fetchApi(url);
+                const res = await fetch(url);
+                const itens = await res.json();
                 grid.innerHTML = '';
-                if (itens.length === 0) { grid.innerHTML = '<div style="grid-column: 1 / -1;">Nenhum conteúdo.</div>'; return; }
+                if (itens.length === 0) { grid.innerHTML = '<div style="color:#fff;">Nenhum conteúdo.</div>'; return; }
                 
                 itens.forEach(item => {
                     const card = document.createElement('div'); card.className = 'card-item';
@@ -476,45 +427,83 @@
                     card.onclick = () => interceptarAbrirDetalhes(item, nomeItem);
                     grid.appendChild(card);
                 });
-            } catch (e) { grid.innerHTML = 'Erro ao carregar itens.'; }
+            } catch (e) { grid.innerHTML = '<div style="color:red;">Erro ao carregar os itens.</div>'; }
+        }
+
+        // --- PESQUISA ---
+        let timeoutPesquisa = null;
+        function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
+        async function realizarPesquisa() {
+            const termo = document.getElementById('searchInput').value.trim().toLowerCase();
+            const grid = document.getElementById('grid-conteudo');
+            if (termo === '') { 
+                if (modoAtual === 'pesquisa') document.querySelector('.nav-btn.active').click(); 
+                else document.querySelectorAll('.card-item').forEach(c => c.style.display = 'flex');
+                return; 
+            }
+            if (modoAtual === 'streams' || modoAtual === 'favoritos') { 
+                document.querySelectorAll('.card-item').forEach(c => { 
+                    c.style.display = c.innerText.toLowerCase().includes(termo) ? 'flex' : 'none'; 
+                }); 
+                return; 
+            }
+            
+            fecharDetalhes(); 
+            document.getElementById('titulo-sessao').innerText = `Procurando "${termo}"...`; 
+            document.getElementById('btn-voltar').style.display = 'block';
+            grid.innerHTML = '<div style="color:#fff; text-align:center; width:100%;">Buscando no catálogo completo...</div>';
+            
+            let acaoApi = tipoAtual === 'live' ? 'get_live_streams' : tipoAtual === 'vod' ? 'get_vod_streams' : 'get_series';
+            try {
+                const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=${acaoApi}`;
+                const res = await fetch(url);
+                const todos = await res.json();
+                const resultados = todos.filter(item => (item.name || item.title || '').toLowerCase().includes(termo));
+                document.getElementById('titulo-sessao').innerText = `Resultados (${resultados.length})`; 
+                renderizarItens(resultados, grid); 
+                modoAtual = 'pesquisa';
+            } catch (e) { grid.innerHTML = '<div style="color:red;">Erro na pesquisa global.</div>'; }
         }
 
         // --- DETALHES ---
         function fecharDetalhes() { document.getElementById('details-screen').style.display = 'none'; }
         
         async function abrirDetalhes(item, nome) {
-            document.getElementById('details-screen').style.display = 'flex'; document.getElementById('details-screen').scrollTop = 0; 
+            document.getElementById('details-screen').style.display = 'flex'; 
             const id = item.stream_id || item.series_id || item.id_real || item.id;
-            const extensao = item.container_extension || item.extensao || 'mp4';
-            const capa = getSafeImage(item.stream_icon || item.cover || item.capa);
+            const ext = item.container_extension || item.extensao || 'mp4';
+            let capa = getSafeImage(item.stream_icon || item.cover || item.capa);
             
-            infoVideoAtual = { id, nome, tipo: tipoAtual, capa, extensao };
+            infoVideoAtual = { id, nome, tipo: tipoAtual, capa, ext };
             
-            document.getElementById('details-title').innerText = nome; document.getElementById('details-poster').src = capa;
+            document.getElementById('details-title').innerText = nome; 
+            document.getElementById('details-poster').src = capa;
             document.getElementById('details-hero').style.backgroundImage = `url('${capa}')`;
             document.getElementById('details-plot').innerText = 'Carregando informações...';
-            document.getElementById('details-epg').style.display = 'none'; document.getElementById('details-extra').style.display = 'none';
+            document.getElementById('btn-voltar-temporadas').style.display = 'none';
+            
             document.getElementById('btn-details-play').style.display = (tipoAtual === 'series') ? 'none' : 'block'; 
-            document.getElementById('btn-details-play').onclick = () => iniciarVideoHLS(id, extensao, nome);
+            document.getElementById('btn-details-play').onclick = () => prepararVideo(infoVideoAtual.id, ext, nome);
             atualizarBotaoFavDetalhes();
-
+            
             if (tipoAtual === 'vod') {
                 try {
-                    const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=get_vod_info&vod_id=${id}`;
-                    const data = await fetchApi(url);
+                    const res = await fetch(`${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=get_vod_info&vod_id=${id}`);
+                    const data = await res.json();
                     document.getElementById('details-plot').innerText = data.info.plot || 'Sem sinopse disponível.';
                 } catch(e) { document.getElementById('details-plot').innerText = 'Sem sinopse disponível.'; }
             } else if (tipoAtual === 'series') { renderizarTemporadasSérie(id, nome); }
+            else { document.getElementById('details-plot').innerText = 'Ao Vivo'; }
         }
 
         async function renderizarTemporadasSérie(id, nomeSerie) {
-            document.getElementById('details-extra').style.display = 'block'; const gridExtra = document.getElementById('details-extra-grid'); gridExtra.innerHTML = '<div style="color:white;">Carregando temporadas...</div>';
+            document.getElementById('btn-voltar-temporadas').style.display = 'none'; 
+            const gridExtra = document.getElementById('details-extra-grid'); gridExtra.innerHTML = '<div style="color:white;">Carregando temporadas...</div>';
             try {
                 if(!serieDadosCompletos || serieDadosCompletos.info.name !== nomeSerie) {
-                    const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=get_series_info&series_id=${id}`;
-                    serieDadosCompletos = await fetchApi(url);
+                    const res = await fetch(`${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=get_series_info&series_id=${id}`);
+                    serieDadosCompletos = await res.json();
                 }
-                
                 document.getElementById('details-plot').innerText = serieDadosCompletos.info.plot || 'Sem sinopse.';
                 gridExtra.innerHTML = '';
                 if(serieDadosCompletos.episodes) {
@@ -525,24 +514,25 @@
                         gridExtra.appendChild(block);
                     });
                 }
-            } catch(e) { gridExtra.innerHTML = ''; }
+            } catch(e) { gridExtra.innerHTML = 'Erro ao carregar as temporadas.'; }
         }
 
         function renderizarEpisodiosSérie(numTemporada, nomeSerie, idSerie) {
+            document.getElementById('btn-voltar-temporadas').style.display = 'inline-block';
             const gridExtra = document.getElementById('details-extra-grid'); gridExtra.innerHTML = '';
             serieDadosCompletos.episodes[numTemporada].forEach(ep => {
-                const card = document.createElement('div'); card.className = 'card-item';
+                const card = document.createElement('div'); card.className = 'card-episode'; 
                 const title = `E${ep.episode_num} - ${ep.title}`;
-                let thumbUrl = getSafeImage(ep.info?.movie_image || ep.info?.cover || ep.info?.backdrop_path || infoVideoAtual.capa);
+                let thumbUrl = getSafeImage(ep.info?.movie_image || ep.info?.cover || infoVideoAtual.capa);
                 card.innerHTML = `<img src="${thumbUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}'"><div class="card-title">${title}</div>`;
-                card.onclick = () => {
-                    iniciarVideoHLS(ep.id, ep.container_extension || 'mp4', `${nomeSerie} - ${title}`);
-                };
+                card.onclick = () => prepararVideo(ep.id, ep.container_extension || 'mp4', `${nomeSerie} - ${title}`);
                 gridExtra.appendChild(card);
             });
         }
 
-        // --- FAVORITOS ---
+        function voltarParaTemporadas() { renderizarTemporadasSérie(infoVideoAtual.id, infoVideoAtual.nome); }
+        function voltarParaCategorias() { document.querySelector('.nav-btn.active').click(); }
+
         function alternarFavoritoDetalhes() {
             let isFav = meusFavoritos[infoVideoAtual.tipo]?.some(i => i.id_real == infoVideoAtual.id);
             if (isFav) meusFavoritos[infoVideoAtual.tipo] = meusFavoritos[infoVideoAtual.tipo].filter(i => i.id_real != infoVideoAtual.id);
@@ -567,50 +557,47 @@
         function criarCardFavorito(item, grid) {
             const card = document.createElement('div'); card.className = 'card-item';
             const imgUrl = getSafeImage(item.stream_icon);
-            const imgTag = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';">`;
-            card.innerHTML = `${imgTag}<div class="card-title">${item.nome}</div>`;
+            card.innerHTML = `<img src="${imgUrl}" class="card-img" onerror="this.onerror=null; this.src='${imgFallback}';"><div class="card-title">${item.nome}</div>`;
             card.onclick = () => interceptarAbrirDetalhes(item, item.nome);
             grid.appendChild(card);
         }
 
-        // --- PLAYER DE VÍDEO NATIVO (HÍBRIDO HLS / SAFARI) ---
+        // --- PLAYER DE VÍDEO NATIVO ---
         const player = document.getElementById('player');
+        
+        player.onerror = () => { document.getElementById('video-error').style.display = 'block'; };
 
-        function iniciarVideoHLS(id, ext, nome) {
-            if(tipoAtual !== 'series') {
-                urlVideoAtual = tipoAtual === 'live' 
-                    ? `${credenciais.url}/live/${credenciais.user}/${credenciais.pass}/${infoVideoAtual.id}.m3u8`
-                    : `${credenciais.url}/movie/${credenciais.user}/${credenciais.pass}/${infoVideoAtual.id}.${infoVideoAtual.extensao}`;
-                nomeVideoAtual = infoVideoAtual.nome; 
-            } else {
-                urlVideoAtual = `${credenciais.url}/series/${credenciais.user}/${credenciais.pass}/${id}.${ext || 'mp4'}`;
-                nomeVideoAtual = nome;
-            }
+        function forcarAbaExterna() { window.open(urlVideoAtual, '_blank'); }
+        function baixarVideo() { window.open(urlVideoAtual, '_blank'); }
 
-            const videoModal = document.getElementById('video-modal');
+        function prepararVideo(id, ext, nome) {
+            videoIdAtual = id; nomeVideoAtual = nome;
+            if(tipoAtual === 'live') urlVideoAtual = `${credenciais.url}/live/${credenciais.user}/${credenciais.pass}/${id}.m3u8`;
+            else urlVideoAtual = `${credenciais.url}/movie/${credenciais.user}/${credenciais.pass}/${id}.${ext || 'mp4'}`;
+            iniciarVideoHLS(0);
+        }
+
+        function iniciarVideoHLS(startTime) {
+            document.getElementById('video-modal').style.display = 'flex';
             document.getElementById('video-title').innerText = nomeVideoAtual;
-            videoModal.style.display = 'flex';
-            
-            let hideHeaderTimeout;
-            player.onmousemove = () => {
-                document.getElementById('video-header').style.opacity = '1';
-                clearTimeout(hideHeaderTimeout);
-                hideHeaderTimeout = setTimeout(() => { document.getElementById('video-header').style.opacity = '0'; }, 3000);
-            };
+            document.getElementById('video-error').style.display = 'none';
+            document.getElementById('btn-download').style.display = (tipoAtual === 'live' || urlVideoAtual.includes('.m3u8')) ? 'none' : 'flex';
 
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
 
-            // Lógica Híbrida: Se for iPhone/Safari usa player nativo, senão injeta o HLS.js
             if (player.canPlayType('application/vnd.apple.mpegurl') || !urlVideoAtual.includes('.m3u8')) {
                 player.src = urlVideoAtual;
-                player.play().catch(e => console.log(e));
+                player.play().catch(e => {
+                    document.getElementById('video-error').style.display = 'block';
+                });
             } else if (Hls.isSupported() && urlVideoAtual.includes('.m3u8')) {
                 hlsInfo = new Hls(); 
+                hlsInfo.on(Hls.Events.ERROR, function (event, data) {
+                    if (data.fatal) document.getElementById('video-error').style.display = 'block';
+                });
                 hlsInfo.loadSource(urlVideoAtual); 
                 hlsInfo.attachMedia(player);
                 hlsInfo.on(Hls.Events.MANIFEST_PARSED, () => player.play().catch(e=>console.log(e)));
-            } else { 
-                player.src = urlVideoAtual; player.play().catch(e => console.log(e)); 
             }
         }
 
@@ -619,46 +606,6 @@
             player.pause(); player.src = '';
             if (hlsInfo) { hlsInfo.destroy(); hlsInfo = null; }
         }
-
-        // --- LÓGICA DE PESQUISA INTELIGENTE MANTIDA ---
-        function dispararPesquisa() { clearTimeout(timeoutPesquisa); timeoutPesquisa = setTimeout(realizarPesquisa, 800); }
-        async function realizarPesquisa() {
-            const termo = document.getElementById('searchInput').value.trim().toLowerCase();
-            const grid = document.getElementById('grid-conteudo');
-            
-            if (termo === '') { 
-                if (modoAtual === 'pesquisa') document.querySelector('.nav-btn.active').click(); 
-                else document.querySelectorAll('.card-item').forEach(c => c.style.display = 'flex');
-                return; 
-            }
-            
-            if (modoAtual === 'streams' || modoAtual === 'favoritos') { 
-                document.querySelectorAll('.card-item').forEach(c => { 
-                    c.style.display = c.innerText.toLowerCase().includes(termo) ? 'flex' : 'none'; 
-                }); 
-                return; 
-            }
-            
-            fecharDetalhes(); 
-            document.getElementById('titulo-sessao').innerText = `Procurando "${termo}" em tudo...`; 
-            document.getElementById('btn-voltar').style.display = 'block';
-            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center;">Buscando no catálogo completo (Isso pode levar alguns segundos)...</div>';
-            
-            let acaoApi = tipoAtual === 'live' ? 'get_live_streams' : tipoAtual === 'vod' ? 'get_vod_streams' : 'get_series';
-            try {
-                const url = `${credenciais.url}/player_api.php?username=${credenciais.user}&password=${credenciais.pass}&action=${acaoApi}`;
-                const todos = await fetchApi(url);
-                const resultados = todos.filter(item => (item.name || item.title || '').toLowerCase().includes(termo));
-                
-                document.getElementById('titulo-sessao').innerText = `Resultados (${resultados.length})`; 
-                renderizarItens(resultados, grid); 
-                modoAtual = 'pesquisa';
-            } catch (e) { 
-                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #ff5252;">Erro na pesquisa global. Tente entrar numa pasta específica antes de pesquisar.</div>'; 
-            }
-        }
-
-        function voltarParaCategorias() { document.querySelector('.nav-btn.active').click(); }
     </script>
 </body>
 </html>
